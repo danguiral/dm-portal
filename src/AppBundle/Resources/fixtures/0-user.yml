@@ -1,0 +1,32 @@
+model: AppBundle\Entity\User
+fixtures:
+    cgrandval:
+        email: cgrandval@darkmira.com
+        password: $2y$13$H0d1gJ6Ee4Tu9qm6EG11f.x56hiPZYccr918Rsji9V1/9odFEgaye # admin
+        isAdmin: 1
+    fbaillon:
+        email: fbaillon@darkmira.com
+        password: $2y$13$H0d1gJ6Ee4Tu9qm6EG11f.x56hiPZYccr918Rsji9V1/9odFEgaye # admin
+        isAdmin: 1
+    cservoin:
+        email: cservoin@darkmira.com
+        password: $2y$13$H0d1gJ6Ee4Tu9qm6EG11f.x56hiPZYccr918Rsji9V1/9odFEgaye # admin
+        isAdmin: 1
+    gchameroy:
+        email: gchameroy@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user
+    cvilleger:
+        email: cvilleger@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user
+    jmaulny:
+        email: jmaulny@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user
+    mrolo:
+        email: mrolo@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user
+    gnicolle:
+        email: gnicolle@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user
+    xwang:
+        email: xwang@darkmira.com
+        password: $2y$13$PUbH4NX9xVV8/8QZCb76luDp3wG0TW5rekIF53QnJxpEVa1tkwWCy # user

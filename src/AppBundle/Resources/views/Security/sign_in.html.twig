@@ -1,0 +1,30 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title parent() ~ ' - Sign In' %}
+
+{% block body %}
+    <body class="gray-bg">
+    <div class="middle-box text-center loginscreen">
+        <div>
+            <h3>{{ 'security.signin.title'|trans }}</h3>
+            <form action="{{ path('sign_in_check') }}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                           placeholder="{{ 'entity.user.email.placeholder'|trans }}" name="_username"
+                           value="{{ last_username }}">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control"
+                           placeholder="{{ 'entity.user.password.placeholder'|trans }}" name="_password"/>
+                </div>
+                {% if error %}
+                    <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                {% endif %}
+                <button type="submit"
+                        class="btn btn-primary block full-width m-b">{{ 'security.signin.action.submit'|trans }}</button>
+            </form>
+            <p><a href="{{ path('sign_up') }}">{{ 'security.signin.no-account'|trans }}</a></p>
+        </div>
+    </div>
+    </body>
+{% endblock %}

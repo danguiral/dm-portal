@@ -1,0 +1,54 @@
+model: AppBundle\Entity\ArticleVote
+fixtures:
+    vote_article_gchameroy_1:
+        article: article_gchameroy
+        user: cgrandval
+        isValidate: 1
+    vote_article_gchameroy_2:
+        article: article_gchameroy
+        user: fbaillon
+        isValidate: 1
+    vote_article_gchameroy_3:
+        article: article_gchameroy
+        user: cservoin
+        isValidate: 1
+    vote_article_cvilleger_1:
+        article: article_cvilleger
+        user: cgrandval
+        isValidate: 1
+    vote_article_cvilleger_2:
+        article: article_cvilleger
+        user: fbaillon
+        isValidate: 1
+    vote_article_cvilleger_3:
+        article: article_cvilleger
+        user: cservoin
+        isValidate: 0
+    vote_article_jmaulny_1:
+        article: article_jmaulny
+        user: fbaillon
+        isValidate: 1
+    vote_article_jmaulny_2:
+        article: article_jmaulny
+        user: cservoin
+        isValidate: 1
+    vote_article_mrolo_1:
+        article: article_mrolo
+        user: fbaillon
+        isValidate: 1
+    vote_article_mrolo_2:
+        article: article_mrolo
+        user: cservoin
+        isValidate: 0
+    vote_article_gnicolle_1:
+        article: article_gnicolle
+        user: cgrandval
+        isValidate: 0
+    vote_article_gnicolle_2:
+        article: article_gnicolle
+        user: fbaillon
+        isValidate: 0
+    vote_article_gnicolle_3:
+        article: article_gnicolle
+        user: cservoin
+        isValidate: 0

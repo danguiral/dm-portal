@@ -1,0 +1,59 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title parent() ~ ' - Articles' %}
+
+{% block nav %}
+    <h2>{{ 'articles.title'|trans }}</h2>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>{{ 'articles.list.title'|trans }}</h5>
+                    <div class="ibox-tools">
+                        <a href="{{ path('post_articles') }}"
+                           class="btn btn-primary btn-xs">{{ 'articles.action.add'|trans }}</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="project-list">
+                        <table class="table table-hover">
+                            <tbody>
+                            {% for article in articles %}
+                                <tr>
+                                    <td class="col-xs-1">
+                                        <span class="label label-warning">{{ 'article.status.pending'|trans }}</span>
+                                    </td>
+                                    <td class="project-title">
+                                        <div class="col-xs-1">
+                                            <img class="img-circle" src="{{ gravatar(article.user.email) }}"
+                                                 title="{{ article.user.email }}" alt="{{ article.user.email }}"/>
+                                        </div>
+                                        <div class="col-xs-11">
+                                            <a href="">{{ article.title }}</a>
+                                            <br>
+                                            <small>{{ article.description | truncate(80, true) }}</small>
+                                        </div>
+                                    </td>
+                                    <td class="text-right col-xs-1" nowrap>
+                                        <span class="text-info">
+                                            <i class="fa fa-thumbs-up m-r-xs"></i>
+                                            3
+                                        </span>
+                                        <span class="m-l-md">
+                                            <i class="fa fa-thumbs-down m-r-xs"></i>
+                                            0
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

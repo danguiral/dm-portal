@@ -1,0 +1,30 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title parent() ~ ' - Sign Up' %}
+
+{% block body %}
+    <body class="gray-bg">
+    <div class="middle-box text-center loginscreen">
+        <div>
+            <h3>{{ 'security.signup.title'|trans }}</h3>
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div class="form-group">
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'app.entity.user.email.placeholder'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_errors(form.plainPassword.first) }}
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'app.entity.user.password.placeholder'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_errors(form.plainPassword.second) }}
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'app.entity.user.confirm.placeholder'}}) }}
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">{{ 'security.signin.action.submit'|trans }}</button>
+            {{ form_end(form) }}
+            <p><a href="{{ path('sign_in') }}">{{ 'security.signup.have-account'|trans }}t</a></p>
+        </div>
+    </div>
+    </body>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title 'Darkmira' %}</title>
+    {% include 'AppBundle::Layout/css.html.twig' only %}
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon_darkmira.png') }}">
+</head>
+
+{% block body %}
+    <body>
+    <div id="wrapper">
+        {% include 'AppBundle::Layout/navigation.html.twig' only %}
+        <div id="page-wrapper" class="gray-bg">
+            {% include 'AppBundle::Layout/toolbar.html.twig' only %}
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-sm-6">
+                    {% block nav %}
+                        <h2></h2>
+                    {% endblock %}
+                </div>
+                <div class="col-sm-6">
+                    {% block action %}
+                        <h2></h2>
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="wrapper wrapper-content">
+                {% block content '' %}
+            </div>
+            {% include 'AppBundle::Layout/footer.html.twig' only %}
+        </div>
+    </div>
+
+
+    {% include 'AppBundle::Layout/js.html.twig' only %}
+    </body>
+{% endblock %}
+</html>

@@ -1,0 +1,37 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title parent() ~ ' - ' ~ 'articles.add.title'|trans %}
+
+{% block nav %}
+    <h2>{{ 'articles.title'|trans }}</h2>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>{{ 'articles.add.title'|trans }}</h5>
+                    <div class="ibox-tools">
+                        <a href="" class="btn btn-danger btn-xs">{{ 'articles.add.action.cancel'|trans }}</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+                    <div class="form-group">
+                        {{ form_errors(form.title) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'entity.article.title.placeholder'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'entity.user.description.placeholder'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">{{ 'articles.add.action.submit'|trans }}</button>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,119 @@
+body {
+    background: #333;
+}
+
+a {
+    color: #676a6c;
+}
+
+a:hover, a:active, a:focus {
+    color: #333;
+}
+
+.nav-header {
+    padding: 15px;
+    background-color: #333;
+    background-image: none;
+}
+
+.nav > li.active {
+    border-left: 4px solid #81a61b;
+    background: rgba(1, 1, 1, 0.15)
+}
+
+.navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+    background: rgba(1, 1, 1, 0.15)
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+body.mini-navbar .nav-header {
+    background-color: #333;
+}
+
+.btn-primary {
+    background-color: #81a61b;
+    border-color: #81a61b;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.btn-primary.active:focus {
+    background-color: #6e8e16;
+    border-color: #6e8e16;
+}
+
+.btn-info {
+    background-color: #aeda36;
+    border-color: #aeda36;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info,
+.btn-info:active:focus,
+.btn-info:active:hover,
+.btn-info.active:hover,
+.btn-info.active:focus {
+    background-color: #98bd33;
+    border-color: #98bd33;
+}
+
+.label-primary, .badge-primary {
+    background-color: #81a61b;
+}
+
+.label-info, .badge-info {
+    background-color: #aeda36;
+}
+
+.text-primary {
+    color: #6e8e16;
+}
+
+.text-info {
+    color: #aeda36;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #81a61b;
+    border-color: #81a61b;
+}
+
+.panel-info > .panel-info {
+    background-color: #aeda36;
+    border-color: #aeda36;
+}
+
+.widget-primary {
+    background-color: #81a61b;
+    color: #fff;
+}
+
+.widget-info {
+    background-color: #aeda36;
+    color: #fff;
+}
+
+.widget-warning {
+    background-color: #f7a54a;
+    color: #fff;
+}
+
+.file > .remove {
+    right: 0;
+    position: absolute;
+    padding: 5px 8px;
+    border-left: 1px solid #e7eaec;
+    border-bottom: 1px solid #e7eaec;
+}
