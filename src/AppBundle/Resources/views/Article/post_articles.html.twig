@@ -37,6 +37,10 @@
                         {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'entity.article.title.placeholder'}}) }}
                     </div>
                     <div class="form-group">
+                        {{ form_errors(form.category) }}
+                        {{ form_widget(form.category, {'attr': {'class': 'form-control', 'placeholder': 'entity.user.category.placeholder'}}) }}
+                    </div>
+                    <div class="form-group">
                         {{ form_errors(form.description) }}
                         {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'entity.user.description.placeholder'}}) }}
                     </div>

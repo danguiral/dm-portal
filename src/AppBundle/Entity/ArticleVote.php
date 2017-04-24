@@ -13,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class ArticleVote
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->insertedAt = new \Datetime;
+    }
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -30,13 +38,22 @@ class ArticleVote
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article", inversedBy="votes")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $article;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="inserted_at", type="datetime")
+     */
+    private $insertedAt;
 
 
     /**
@@ -56,7 +73,7 @@ class ArticleVote
      *
      * @return ArticleVote
      */
-    public function setIsValidate(bool $isAccepted): ArticleVote
+    public function setIsAccepted(bool $isAccepted): ArticleVote
     {
         $this->isAccepted = $isAccepted;
 
@@ -71,6 +88,30 @@ class ArticleVote
     public function isAccepted(): bool
     {
         return $this->isAccepted;
+    }
+
+    /**
+     * Set insertedAt
+     *
+     * @param \DateTime $insertedAt
+     *
+     * @return ArticleVote
+     */
+    public function setInsertedAt($insertedAt): ArticleVote
+    {
+        $this->insertedAt = $insertedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get insertedAt
+     *
+     * @return \DateTime
+     */
+    public function getInsertedAt(): \DateTime
+    {
+        return $this->insertedAt;
     }
 
     /**

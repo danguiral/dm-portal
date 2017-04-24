@@ -19,8 +19,14 @@
             </li>
             <li>
                 <a href="{{ path('get_articles') }}">
-                    <i class="fa fa-video-camera"></i>
+                    <i class="fa fa-file"></i>
                     <span class="nav-label">{{ 'navigation.articles.title'|trans }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('get_categories') }}">
+                    <i class="fa fa-folder-open"></i>
+                    <span class="nav-label">{{ 'navigation.articles-categories.title'|trans }}</span>
                 </a>
             </li>
         </ul>

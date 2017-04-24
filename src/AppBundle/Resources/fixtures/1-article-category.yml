@@ -1,0 +1,10 @@
+model: AppBundle\Entity\ArticleCategory
+fixtures:
+    article_category_1:
+        label: Darkmira Powa
+    article_category_2:
+        label: Nerf and Co.
+    article_category_3:
+        label: Darkmira Events
+    article_category_4:
+            label: No one article

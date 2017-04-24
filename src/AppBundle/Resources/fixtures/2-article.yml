@@ -4,23 +4,29 @@ fixtures:
         title: Le super article de Geoffrey
         description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a feugiat ipsum, vitae aliquam ex. Praesent eu efficitur lacus, eu sodales ipsum. Proin viverra laoreet commodo. Sed lobortis tellus eu tellus tincidunt scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed iaculis nisl rhoncus, convallis magna vel, placerat sapien. Fusce rutrum enim ac lorem pulvinar pellentesque. Vestibulum faucibus nunc eget massa blandit, vel scelerisque purus bibendum. Vestibulum lobortis, orci in congue rutrum, nisl nisl varius eros, ac mattis dui ex at quam. Sed tempor pellentesque vulputate. Suspendisse laoreet viverra justo, in feugiat purus cursus pulvinar. Donec non gravida lectus. Aenean magna nisi, consectetur sit amet nisi nec, congue aliquet tellus. Ut sed pharetra arcu. Etiam metus lectus, vulputate ut metus nec, scelerisque dignissim erat.
         user: gchameroy
+        category: article_category_1
     article_cvilleger:
         title: Le super article de Christophe
         description: Etiam egestas augue nec lectus placerat, at pharetra ligula feugiat. Nunc non arcu id est laoreet euismod at sit amet risus. Nullam quis blandit tellus. Praesent vehicula diam at neque varius mattis. Ut quis hendrerit mauris. Aenean feugiat ipsum non dignissim auctor. Aenean vel elit a mi ultrices euismod.
         user: cvilleger
+        category: article_category_2
     article_jmaulny:
         title: Le super article de Julien
         description: Proin pulvinar lacus id nibh consectetur euismod. Quisque hendrerit justo et felis sodales vestibulum. Nunc dapibus turpis nec diam cursus, eu tincidunt tortor tempor. Praesent id blandit mi. Aenean malesuada ut purus a pharetra. Proin tincidunt tristique metus vitae mollis. Donec nibh erat, porta vitae sollicitudin ac, porttitor vel ipsum. Nulla vitae nibh lectus. Aenean quis risus id lacus mollis sodales ut gravida leo. Duis nec bibendum libero.
         user: jmaulny
+        category: article_category_3
     article_mrolo:
         title: Le super article de Mickaël
         description: Morbi dolor diam, consectetur sed elementum vestibulum, finibus cursus lorem. Ut interdum ipsum magna, ac tristique velit dapibus ac. Vivamus cursus ullamcorper viverra. Praesent congue lacinia congue. Suspendisse porta a magna at suscipit. Aliquam vel turpis neque. Etiam eu augue sed sem varius posuere at vulputate tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean fermentum tellus sed sapien dignissim, vitae elementum nunc elementum. Duis nec hendrerit massa, non sodales enim. Quisque porttitor, mi at sollicitudin euismod, diam sapien accumsan ipsum, ac bibendum justo enim ut tortor. Sed quis orci vestibulum tellus tempor efficitur.
         user: mrolo
+        category: article_category_1
     article_gnicolle:
         title: Le super article de Gaël
         description: Nunc ornare eros sed massa malesuada, ac rhoncus ligula volutpat. Pellentesque in mauris magna. Aliquam dapibus turpis eget blandit facilisis. In hac habitasse platea dictumst. Quisque non odio est. Quisque sed augue volutpat, sollicitudin dui vitae, ultrices nunc. Curabitur nulla ante, pulvinar dapibus odio id, commodo ornare neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut aliquam felis in dui tempus ultricies. Aliquam et arcu vitae urna posuere egestas eu ultrices enim. Proin rhoncus nulla venenatis ex suscipit, ac congue neque feugiat. Nullam diam nisl, fringilla at condimentum quis, placerat a eros. Sed vehicula lectus et mi vestibulum tincidunt. Praesent nisl diam, sagittis in odio eu, lacinia interdum risus. Vivamus egestas consequat porta.
         user: gnicolle
+        category: article_category_2
     article_xwang:
         title: Le super article de Xu
         description: Phasellus a nisi euismod, porttitor est vitae, malesuada metus. Mauris elementum vehicula velit. Maecenas vitae tortor non urna fermentum luctus. Nulla accumsan libero eget sodales accumsan. Donec nec tellus mi. Nunc a tellus nulla. Fusce ligula ante, semper a sollicitudin eget, facilisis a ex. Aliquam pellentesque nunc in augue consequat, ut ullamcorper ante euismod. Cras ac nunc diam.
         user: xwang
+        category: article_category_3

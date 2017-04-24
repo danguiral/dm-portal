@@ -54,6 +54,7 @@ class Article
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -61,6 +62,12 @@ class Article
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ArticleVote", mappedBy="article")
      */
     private $votes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ArticleCategory")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
 
     /**
@@ -170,34 +177,6 @@ class Article
     }
 
     /**
-     * Add vote
-     *
-     * @param \AppBundle\Entity\ArticleVote $vote
-     *
-     * @return Article
-     */
-    public function addVote(ArticleVote $vote): Article
-    {
-        $this->votes[] = $vote;
-
-        return $this;
-    }
-
-    /**
-     * Remove vote
-     *
-     * @param \AppBundle\Entity\ArticleVote $vote
-     *
-     * @return Article
-     */
-    public function removeVote(ArticleVote $vote): Article
-    {
-        $this->votes->removeElement($vote);
-
-        return $this;
-    }
-
-    /**
      * Get votes
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -239,5 +218,29 @@ class Article
         }
 
         return $votes;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\ArticleCategory $category
+     *
+     * @return Article
+     */
+    public function setCategory(ArticleCategory $category): Article
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\ArticleCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

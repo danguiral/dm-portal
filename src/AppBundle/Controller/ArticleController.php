@@ -19,7 +19,7 @@ class ArticleController extends Controller
      * @Method({"GET"})
      * @return Response
      */
-    public function getArticlesAction()
+    public function getArticlesAction(): Response
     {
         $articles = $this->getDoctrine()->getRepository('AppBundle:Article')
             ->findAll();
@@ -35,7 +35,7 @@ class ArticleController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function postArticlesAction(Request $request)
+    public function postArticlesAction(Request $request): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -57,12 +57,12 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/article/{id}", name="get_article")
+     * @Route("/articles/{id}", name="get_article")
      * @Method({"GET"})
      * @param int $id
      * @return Response
      */
-    public function getArticleAction(int $id)
+    public function getArticleAction(int $id): Response
     {
         $article = $this->getDoctrine()->getRepository('AppBundle:Article')
             ->find($id);
@@ -79,7 +79,8 @@ class ArticleController extends Controller
     /**
      * @return NotFoundHttpException
      */
-    private function articleNotFound() {
+    private function articleNotFound(): NotFoundHttpException
+    {
         throw new NotFoundHttpException('Article not found.');
     }
 }
