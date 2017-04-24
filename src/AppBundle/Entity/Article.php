@@ -46,6 +46,13 @@ class Article
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="string", length=255, nullable=true)
+     */
+    private $link;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="inserted_at", type="datetime")
@@ -64,10 +71,16 @@ class Article
     private $votes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ArticleCategory")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ArticleCategory", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ArticleStatus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
 
 
     /**
@@ -126,6 +139,30 @@ class Article
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     *
+     * @return Article
+     */
+    public function setLink(string $link): Article
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 
     /**
@@ -242,5 +279,29 @@ class Article
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\ArticleStatus $status
+     *
+     * @return Article
+     */
+    public function setStatus(ArticleStatus $status): Article
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\ArticleStatus
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

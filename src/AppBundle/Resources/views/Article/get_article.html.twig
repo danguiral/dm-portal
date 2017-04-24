@@ -35,8 +35,14 @@
                     </div>
                     {{ article.description|markdown }}
                     <p class="m-t-lg text-center">
-                        <a class="btn btn-w-m btn-primary m-r-sm">{{ 'article.form.action.accept'|trans }}</a>
-                        <a class="btn btn-w-m btn-danger m-l-sm">{{ 'article.form.action.refuse'|trans }}</a>
+                        {% if article.status.label == 'article.status.pending' %}
+                            <a class="btn btn-w-m btn-primary m-r-sm">{{ 'article.form.action.accept'|trans }}</a>
+                            <a class="btn btn-w-m btn-danger m-l-sm">{{ 'article.form.action.refuse'|trans }}</a>
+                        {% elseif article.status.label == 'article.status.accepted' %}
+                            <a class="btn btn-info" target="_blank" href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
+                        {% else %}
+                            <span class="label label-danger">{{ 'article.msg.refused'|trans }}</span>
+                        {% endif %}
                     </p>
                 </div>
             </div>

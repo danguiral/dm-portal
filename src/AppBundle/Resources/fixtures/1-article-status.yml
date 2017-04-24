@@ -1,0 +1,8 @@
+model: AppBundle\Entity\ArticleStatus
+fixtures:
+    article_status_pending:
+        label: article.status.pending
+    article_status_accepted:
+        label: article.status.accepted
+    article_status_refused:
+        label: article.status.refused
