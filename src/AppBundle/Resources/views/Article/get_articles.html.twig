@@ -4,6 +4,18 @@
 
 {% block nav %}
     <h2>{{ 'articles.title'|trans }}</h2>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('home') }}">{{ 'home.title'|trans }}</a>
+        </li>
+        <li class="active">
+            <strong>{{ 'articles.title'|trans }}</strong>
+        </li>
+    </ol>
+{% endblock %}
+
+{% block action %}
+    <a href="{{ path('post_articles') }}" class="btn btn-primary">{{ 'articles.action.add'|trans }}</a>
 {% endblock %}
 
 {% block content %}
@@ -12,10 +24,6 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>{{ 'articles.list.title'|trans }}</h5>
-                    <div class="ibox-tools">
-                        <a href="{{ path('post_articles') }}"
-                           class="btn btn-primary btn-xs">{{ 'articles.action.add'|trans }}</a>
-                    </div>
                 </div>
                 <div class="ibox-content">
                     <div class="project-list">
@@ -32,20 +40,24 @@
                                                  title="{{ article.user.email }}" alt="{{ article.user.email }}"/>
                                         </div>
                                         <div class="col-xs-11">
-                                            <a href="">{{ article.title }}</a>
+                                            <a href="{{ path('get_article', {id: article.id}) }}">{{ article.title }}</a>
                                             <br>
                                             <small>{{ article.description | truncate(80, true) }}</small>
                                         </div>
                                     </td>
-                                    <td class="text-right col-xs-1" nowrap>
-                                        <span class="text-info">
+                                    <td class="text-center col-xs-1" nowrap>
+                                        <span class="{% if article.acceptedVotes|length >= article.refusedVotes|length and article.acceptedVotes|length > 0 %}text-info{% endif %}">
                                             <i class="fa fa-thumbs-up m-r-xs"></i>
-                                            3
+                                            {{ article.acceptedVotes|length }}
                                         </span>
-                                        <span class="m-l-md">
+                                        <span class="m-l-md {% if article.refusedVotes|length >= article.acceptedVotes|length and article.refusedVotes|length > 0 %}text-danger{% endif %}">
                                             <i class="fa fa-thumbs-down m-r-xs"></i>
-                                            0
+                                            {{ article.refusedVotes|length }}
                                         </span>
+                                    </td>
+                                    <td class="text-right col-xs-1">
+                                        <a class="btn btn-default btn-xs"
+                                           href="{{ path('get_article', {id: article.id}) }}">{{ 'articles.list.action.view'|trans }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -4,10 +4,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\ArticleType;
 use AppBundle\Entity\Article;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 class ArticleController extends Controller
@@ -15,6 +17,7 @@ class ArticleController extends Controller
     /**
      * @Route("/articles", name="get_articles")
      * @Method({"GET"})
+     * @return Response
      */
     public function getArticlesAction()
     {
@@ -29,6 +32,8 @@ class ArticleController extends Controller
     /**
      * @Route("/articles/add", name="post_articles")
      * @Method({"GET", "POST"})
+     * @param Request $request
+     * @return Response
      */
     public function postArticlesAction(Request $request)
     {
@@ -42,11 +47,39 @@ class ArticleController extends Controller
             $em->persist($article);
             $em->flush();
 
+            // TODO: Send a mail to moderators
             return $this->redirectToRoute('get_articles');
         }
 
         return $this->render('AppBundle:Article:post_articles.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/article/{id}", name="get_article")
+     * @Method({"GET"})
+     * @param int $id
+     * @return Response
+     */
+    public function getArticleAction(int $id)
+    {
+        $article = $this->getDoctrine()->getRepository('AppBundle:Article')
+            ->find($id);
+
+        if (!$article) {
+            $this->articleNotFound();
+        }
+
+        return $this->render('AppBundle:Article:get_article.html.twig', [
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * @return NotFoundHttpException
+     */
+    private function articleNotFound() {
+        throw new NotFoundHttpException('Article not found.');
     }
 }

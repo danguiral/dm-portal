@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,7 @@ class Article
     public function __construct()
     {
         $this->insertedAt = new \Datetime;
+        $this->votes = new ArrayCollection();
     }
 
     /**
@@ -55,6 +57,11 @@ class Article
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ArticleVote", mappedBy="article")
+     */
+    private $votes;
+
 
     /**
      * Get id
@@ -85,7 +92,7 @@ class Article
      *
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -109,7 +116,7 @@ class Article
      *
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
@@ -157,8 +164,80 @@ class Article
      *
      * @return \AppBundle\Entity\User
      */
-    public function getUser(): User
+    public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add vote
+     *
+     * @param \AppBundle\Entity\ArticleVote $vote
+     *
+     * @return Article
+     */
+    public function addVote(ArticleVote $vote): Article
+    {
+        $this->votes[] = $vote;
+
+        return $this;
+    }
+
+    /**
+     * Remove vote
+     *
+     * @param \AppBundle\Entity\ArticleVote $vote
+     *
+     * @return Article
+     */
+    public function removeVote(ArticleVote $vote): Article
+    {
+        $this->votes->removeElement($vote);
+
+        return $this;
+    }
+
+    /**
+     * Get votes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * Get accepted votes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAcceptedVotes()
+    {
+        $votes = new ArrayCollection();
+        foreach ($this->votes as $vote) {
+            if ($vote->isAccepted()) {
+                $votes[] = $vote;
+            }
+        }
+
+        return $votes;
+    }
+
+    /**
+     * Get refused votes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRefusedVotes()
+    {
+        $votes = new ArrayCollection();
+        foreach ($this->votes as $vote) {
+            if (!$vote->isAccepted()) {
+                $votes[] = $vote;
+            }
+        }
+
+        return $votes;
     }
 }

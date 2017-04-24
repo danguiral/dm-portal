@@ -8,12 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class SecurityController extends Controller
 {
     /**
      * @Route("/sign-up", name="sign_up")
+     * @Method({"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function SignUpAction(Request $request)
     {
@@ -42,6 +46,7 @@ class SecurityController extends Controller
     /**
      * @Route("/sign-in", name="sign_in")
      * @Method("GET")
+     * @return Response
      */
     public function SignInAction()
     {
@@ -61,7 +66,6 @@ class SecurityController extends Controller
      */
     public function SignOutAction()
     {
-
     }
 
     /**
@@ -70,6 +74,5 @@ class SecurityController extends Controller
      */
     public function SignInCheckAction()
     {
-
     }
 }

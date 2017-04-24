@@ -3,8 +3,24 @@
 {% block title parent() ~ ' - ' ~ 'articles.add.title'|trans %}
 
 {% block nav %}
-    <h2>{{ 'articles.title'|trans }}</h2>
+    <h2>{{ 'articles.add.title'|trans }}</h2>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('home') }}">{{ 'home.title'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('get_articles') }}">{{ 'articles.title'|trans }}</a>
+        </li>
+        <li class="active">
+            <strong>{{ 'articles.add.title'|trans }}</strong>
+        </li>
+    </ol>
 {% endblock %}
+
+{% block action %}
+    <a href="{{ path('get_articles') }}" class="btn btn-default">{{ 'articles.add.action.cancel'|trans }}</a>
+{% endblock %}
+
 
 {% block content %}
     <div class="row">
@@ -12,9 +28,6 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>{{ 'articles.add.title'|trans }}</h5>
-                    <div class="ibox-tools">
-                        <a href="" class="btn btn-danger btn-xs">{{ 'articles.add.action.cancel'|trans }}</a>
-                    </div>
                 </div>
                 <div class="ibox-content">
                     {{ form_start(form) }}

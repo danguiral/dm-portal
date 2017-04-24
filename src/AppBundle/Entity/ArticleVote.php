@@ -24,12 +24,12 @@ class ArticleVote
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_validate", type="boolean")
+     * @ORM\Column(name="is_accepted", type="boolean")
      */
-    private $isValidate;
+    private $isAccepted;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article", inversedBy="votes")
      */
     private $article;
 
@@ -50,27 +50,27 @@ class ArticleVote
     }
 
     /**
-     * Set isValidate
+     * Set isAccepted
      *
-     * @param boolean $isValidate
+     * @param boolean $isAccepted
      *
      * @return ArticleVote
      */
-    public function setIsValidate(bool $isValidate): ArticleVote
+    public function setIsValidate(bool $isAccepted): ArticleVote
     {
-        $this->isValidate = $isValidate;
+        $this->isAccepted = $isAccepted;
 
         return $this;
     }
 
     /**
-     * Get isValidate
+     * Get isAccepted
      *
      * @return bool
      */
-    public function isValidate(): bool
+    public function isAccepted(): bool
     {
-        return $this->isValidate;
+        return $this->isAccepted;
     }
 
     /**
