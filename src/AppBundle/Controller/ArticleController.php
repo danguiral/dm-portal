@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ArticleVote;
 use AppBundle\Form\Type\ArticleType;
 use AppBundle\Entity\Article;
+use AppBundle\Form\Type\ArticleVoteType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -58,11 +60,12 @@ class ArticleController extends Controller
 
     /**
      * @Route("/articles/{id}", name="get_article")
-     * @Method({"GET"})
+     * @Method({"GET", "POST"})
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function getArticleAction(int $id): Response
+    public function getArticleAction(Request $request, int $id): Response
     {
         $article = $this->getDoctrine()->getRepository('AppBundle:Article')
             ->find($id);
@@ -71,9 +74,42 @@ class ArticleController extends Controller
             $this->articleNotFound();
         }
 
-        return $this->render('AppBundle:Article:get_article.html.twig', [
-            'article' => $article
-        ]);
+        $myVote = $this->getDoctrine()->getRepository('AppBundle:ArticleVote')
+            ->findOneBy([
+                'article' => $article,
+                'user' => $this->getUser()
+            ]);
+
+
+        if ($article->getStatus()->getLabel() == 'article.status.pending') {
+            $articleVote = new ArticleVote();
+            $form = $this->createForm(ArticleVoteType::class, $articleVote);
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $articleVote->setArticle($article);
+                $articleVote->setUser($this->getUser());
+                $em = $this->getDoctrine()->getManager();
+                $article->setUser($this->getUser());
+                $em->persist($articleVote);
+                $em->flush();
+
+                // TODO: Send a mail to moderators and user
+                return $this->redirectToRoute('get_article', [
+                    'id' => $article->getId()
+                ]);
+            }
+        }
+
+        $params = [
+            'article' => $article,
+            'myVote' => $myVote
+        ];
+        if (isset($form)) {
+            $params['form'] = $form->createView();
+        }
+
+        return $this->render('AppBundle:Article:get_article.html.twig', $params);
     }
 
     /**

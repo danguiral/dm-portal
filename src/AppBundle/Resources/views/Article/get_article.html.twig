@@ -21,7 +21,6 @@
     <a href="{{ path('get_articles') }}" class="btn btn-default">{{ 'article.action.return'|trans }}</a>
 {% endblock %}
 
-
 {% block content %}
     <div class="row article">
         <div class="col-lg-10 col-lg-offset-1">
@@ -31,21 +30,84 @@
                         <span><img class="img-circle" src="{{ gravatar(article.user.email, 80) }}"
                                    title="{{ article.user.email }}" alt="{{ article.user.email }}"/></span>
                         <h1>{{ article.title }}</h1>
-                        <span class="text-muted"><i class="fa fa-clock-o"></i> {{ article.insertedAt|date('d/m/Y') }}</span>
+                        <span class="text-muted">
+                            <i class="fa fa-clock-o"></i>
+                            {{ article.insertedAt|date('d/m/Y') }}
+                        </span>
                     </div>
                     {{ article.description|escape|markdown }}
+                    <div class="row m-t-lg text-center">
+                        {% if form is defined %}
+                            {{ form_start(form) }}
+                        {% endif %}
+                        <div class="col-xs-6">
+                            <h1 class="text-right">
+                                {% if myVote %}
+                                    <span class="m-r-md {% if myVote.accepted %}text-info{% else %}text-muted{% endif %}">
+                                    <span>{{ article.acceptedVotes|length }}</span>
+                                    <i class="fa fa-thumbs-up"></i>
+                                </span>
+                                {% else %}
+                                    <a id="article_vote_accept" class="m-r-md">
+                                        <span>{{ article.acceptedVotes|length }}</span>
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </a>
+                                {% endif %}
+                            </h1>
+                        </div>
+                        <div class="col-xs-6">
+                            <h1 class="text-left">
+                                {% if myVote %}
+                                    <span class="m-l-md {% if not myVote.accepted %}text-danger{% else %}text-muted{% endif %}">
+                                    <span>{{ article.refusedVotes|length }}</span>
+                                    <i class="fa fa-thumbs-down"></i>
+                                </span>
+                                {% else %}
+                                    <a id="article_vote_refuse" class="m-l-md">
+                                        <span>{{ article.refusedVotes|length }}</span>
+                                        <i class="fa fa-thumbs-down"></i>
+                                    </a>
+                                {% endif %}
+                            </h1>
+                        </div>
+                        {% if form is defined %}
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        {% endif %}
+                    </div>
                     <p class="m-t-lg text-center">
                         {% if article.status.label == 'article.status.pending' %}
-                            <a class="btn btn-w-m btn-primary m-r-sm">{{ 'article.form.action.accept'|trans }}</a>
-                            <a class="btn btn-w-m btn-danger m-l-sm">{{ 'article.form.action.refuse'|trans }}</a>
+                            <a class="btn btn-w-m btn-primary m-r-sm"
+                               {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.accept'|trans }}</a>
+                            <a class="btn btn-w-m btn-danger m-l-sm"
+                               {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.refuse'|trans }}</a>
+                            {% if not myVote %}
+                                <br><span class="text-muted">{{ 'article.msg.must-vote' }}</span>
+                            {% endif %}
                         {% elseif article.status.label == 'article.status.accepted' %}
-                            <a class="btn btn-info" target="_blank" href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
+                            <a class="btn btn-info" target="_blank"
+                               href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
                         {% else %}
-                            <span class="label label-danger">{{ 'article.msg.refused'|trans }}</span>
+                            <span class="label label-default">{{ 'article.msg.refused'|trans }}</span>
                         {% endif %}
                     </p>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $form = $('[name="app_article_vote"]');
+            $input = $form.find('#app_article_vote_isAccepted');
+
+            $form.find('#article_vote_accept').click(function(){
+                $input.val(1);
+                $form.submit();
+            });
+            $form.find('#article_vote_refuse').click(function(){
+                $input.val(0);
+                $form.submit();
+            });
+        })
+    </script>
 {% endblock %}

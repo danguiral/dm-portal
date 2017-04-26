@@ -37,7 +37,7 @@
                                         {% elseif article.status.label == 'article.status.accepted' %}
                                             <span class="label label-info">{{ article.status.label|trans }}</span>
                                         {% else %}
-                                            <span class="label label-danger">{{ article.status.label|trans }}</span>
+                                            <span class="label label-default">{{ article.status.label|trans }}</span>
                                         {% endif %}
                                     </td>
                                     <td class="project-title">
@@ -62,7 +62,7 @@
                                         </span>
                                     </td>
                                     <td class="text-right col-xs-1">
-                                        <a class="btn btn-default btn-xs"
+                                        <a class="btn btn-default btn-sm"
                                            href="{{ path('get_article', {id: article.id}) }}">{{ 'articles.list.action.view'|trans }}</a>
                                     </td>
                                 </tr>
