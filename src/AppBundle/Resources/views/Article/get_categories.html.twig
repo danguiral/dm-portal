@@ -33,14 +33,11 @@
                                 <tr>
                                     <td class="col-xs-1"># {{ category.id }}</td>
                                     <td class="project-title"><strong>{{ category.label }}</strong></td>
-                                    <td>{{ category.articles|length }} {{ 'article-categories.list.nb-articles.msg' }}</td>
+                                    <td>{{ category.articles|length }} {{ 'article-categories.list.msg.nb-articles' }}</td>
                                     <td class="text-right">
-                                        <a class="btn btn-info btn-xs"
-                                           href="{{ path('put_category', {id: category.id}) }}">{{ 'article-category.list.action.view'|trans }}</a>
-                                        {% if category.articles|length == 0 %}
-                                            <a class="btn btn-danger btn-xs"
-                                               href="{{ path('delete_category', {id: category.id}) }}">{{ 'article-category.list.action.view'|trans }}</a>
-                                        {% endif %}
+                                        <a class="btn btn-danger btn-xs"
+                                           href="{{ path('delete_category', {id: category.id}) }}"
+                                           {% if category.articles|length > 0 %}disabled{% endif %}>{{ 'article-category.list.action.view'|trans }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}

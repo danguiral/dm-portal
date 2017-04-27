@@ -80,17 +80,47 @@ class ArticleController extends Controller
                 'user' => $this->getUser()
             ]);
 
+        return $this->render('AppBundle:Article:get_article.html.twig', [
+            'article' => $article,
+            'myVote' => $myVote
+        ]);
+    }
+
+    /**
+     * @Route("/articles/{id}/votes/add", name="post_article_votes")
+     * @Method({"GET", "POST"})
+     * @param Int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function postVotesAction(int $id, Request $request): Response
+    {
+        $article = $this->getDoctrine()->getRepository('AppBundle:Article')
+            ->find($id);
+
+        if (!$article) {
+            $this->articleNotFound();
+        }
+
+        $myVote = $this->getDoctrine()->getRepository('AppBundle:ArticleVote')
+            ->findOneBy([
+                'article' => $article,
+                'user' => $this->getUser()
+            ]);
 
         if ($article->getStatus()->getLabel() == 'article.status.pending') {
             $articleVote = new ArticleVote();
-            $form = $this->createForm(ArticleVoteType::class, $articleVote);
+            $form = $this->createForm(ArticleVoteType::class, $articleVote, [
+                'action' => $this->generateUrl('post_article_votes', [
+                    'id' => $article->getId()
+                ])
+            ]);
 
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $articleVote->setArticle($article);
                 $articleVote->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
-                $article->setUser($this->getUser());
                 $em->persist($articleVote);
                 $em->flush();
 
@@ -109,7 +139,7 @@ class ArticleController extends Controller
             $params['form'] = $form->createView();
         }
 
-        return $this->render('AppBundle:Article:get_article.html.twig', $params);
+        return $this->render('AppBundle:Article/Partial:post_votes.html.twig', $params);
     }
 
     /**

@@ -1,0 +1,56 @@
+<div class="row m-t-lg text-center">
+    {% if form is defined %}
+        {{ form_start(form) }}
+    {% endif %}
+    <div class="col-xs-6">
+        <h1 class="text-right">
+            {% if myVote %}
+                <span class="m-r-md {% if myVote.accepted %}text-info{% else %}text-muted{% endif %}">
+                    <span>{{ article.acceptedVotes|length }}</span>
+                    <i class="fa fa-thumbs-up"></i>
+                </span>
+            {% else %}
+                <a id="article_vote_accept" class="m-r-md">
+                    <span>{{ article.acceptedVotes|length }}</span>
+                    <i class="fa fa-thumbs-up"></i>
+                </a>
+            {% endif %}
+        </h1>
+    </div>
+    <div class="col-xs-6">
+        <h1 class="text-left">
+            {% if myVote %}
+                <span class="m-l-md {% if not myVote.accepted %}text-danger{% else %}text-muted{% endif %}">
+                    <span>{{ article.refusedVotes|length }}</span>
+                    <i class="fa fa-thumbs-down"></i>
+                </span>
+            {% else %}
+                <a id="article_vote_refuse" class="m-l-md">
+                    <span>{{ article.refusedVotes|length }}</span>
+                    <i class="fa fa-thumbs-down"></i>
+                </a>
+            {% endif %}
+        </h1>
+    </div>
+    {% if form is defined %}
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $form = $('[name="app_article_vote"]');
+        $input = $form.find('#app_article_vote_isAccepted');
+
+        $form.find('#article_vote_accept').click(function () {
+            console.log('click');
+            $input.val(1);
+            $form.submit();
+        });
+        $form.find('#article_vote_refuse').click(function () {
+            $input.val(0);
+            $form.submit();
+        });
+    })
+</script>
