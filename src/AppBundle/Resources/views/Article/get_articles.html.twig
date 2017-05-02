@@ -32,9 +32,9 @@
                             {% for article in articles %}
                                 <tr>
                                     <td class="col-xs-1">
-                                        {% if article.status.label == 'article.status.pending' %}
+                                        {% if article.status.id == 1 %}
                                             <span class="label label-warning">{{ article.status.label|trans }}</span>
-                                        {% elseif article.status.label == 'article.status.accepted' %}
+                                        {% elseif article.status.id == 2 %}
                                             <span class="label label-info">{{ article.status.label|trans }}</span>
                                         {% else %}
                                             <span class="label label-default">{{ article.status.label|trans }}</span>

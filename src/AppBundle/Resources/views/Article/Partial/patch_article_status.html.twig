@@ -1,0 +1,76 @@
+<form action="{{ path('patch_article_status', {id: article.id}) }}" method="post" name="app_article_status">
+    <input type="hidden" id="app_article_status" name="status_id"/>
+    <input type="hidden" id="app_article_link" name="link"/>
+    <p class="m-t-lg text-center">
+        {% if article.status.id == 1 %}
+            <button id="article_status_accept" class="btn btn-w-m btn-primary m-r-sm"
+                    {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.accept'|trans }}</button>
+            <button id="article_status_refuse" class="btn btn-w-m btn-danger m-l-sm"
+                    {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.refuse'|trans }}</button>
+            {% if not myVote %}
+                <br><span class="text-muted">{{ 'article.msg.must-vote' }}</span>
+            {% endif %}
+        {% elseif article.status.id == 2 %}
+            <a class="btn btn-info" target="_blank"
+               href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
+        {% else %}
+            <span class="label label-default">{{ 'article.msg.refused'|trans }}</span>
+        {% endif %}
+    </p>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('[name="app_article_status"] #article_status_accept').click(function (e) {
+            e.preventDefault();
+
+            var $form = $(this).closest('form');
+            var $status = $form.find('#app_article_status');
+            var $link = $form.find('#app_article_link');
+
+            swal({
+                title: "{{ 'article.status.accept.title'|trans }}",
+                text: "{{ 'article.status.accept.msg'|trans }}",
+                type: "input",
+                showCancelButton: true,
+                cancelButtonText: "{{ 'article.status.button.cancel'|trans }}",
+                closeOnConfirm: false,
+                confirmButtonText: "{{ 'article.status.button.confirm'|trans }}",
+                inputPlaceholder: "{{ 'article.link.placeholder'|trans }}"
+            }, function (link) {
+                if (link === false) {
+                    return false;
+                }
+
+                if (link === "") {
+                    swal.showInputError("You need to write something!");
+                    return false;
+                }
+
+                $link.val(link);
+                $status.val(2);
+                $form.submit();
+            });
+
+        });
+        $('[name="app_article_status"] #article_status_refuse').click(function (e) {
+            e.preventDefault();
+
+            var $form = $(this).closest('form');
+            var $status = $form.find('#app_article_status');
+
+            swal({
+                title: "{{ 'article.status.refuse.title'|trans }}",
+                text: "{{ 'article.status.refuse.msg'|trans }}",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "{{ 'article.status.button.cancel'|trans }}",
+                confirmButtonText: "{{ 'article.status.button.confirm'|trans }}",
+                closeOnConfirm: false
+            }, function () {
+                $status.val(3);
+                $form.submit();
+            });
+        });
+    });
+</script>

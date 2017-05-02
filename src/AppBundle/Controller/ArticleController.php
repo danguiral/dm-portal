@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ArticleVote;
+use AppBundle\Form\Type\ArticleStatusType;
 use AppBundle\Form\Type\ArticleType;
 use AppBundle\Entity\Article;
 use AppBundle\Form\Type\ArticleVoteType;
@@ -61,11 +62,10 @@ class ArticleController extends Controller
     /**
      * @Route("/articles/{id}", name="get_article")
      * @Method({"GET", "POST"})
-     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function getArticleAction(Request $request, int $id): Response
+    public function getArticleAction(int $id): Response
     {
         $article = $this->getDoctrine()->getRepository('AppBundle:Article')
             ->find($id);
@@ -93,7 +93,7 @@ class ArticleController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function postVotesAction(int $id, Request $request): Response
+    public function postArticleVotesAction(int $id, Request $request): Response
     {
         $article = $this->getDoctrine()->getRepository('AppBundle:Article')
             ->find($id);
@@ -108,7 +108,7 @@ class ArticleController extends Controller
                 'user' => $this->getUser()
             ]);
 
-        if ($article->getStatus()->getLabel() == 'article.status.pending') {
+        if ($article->getStatus()->getId() == 1) {
             $articleVote = new ArticleVote();
             $form = $this->createForm(ArticleVoteType::class, $articleVote, [
                 'action' => $this->generateUrl('post_article_votes', [
@@ -139,7 +139,60 @@ class ArticleController extends Controller
             $params['form'] = $form->createView();
         }
 
-        return $this->render('AppBundle:Article/Partial:post_votes.html.twig', $params);
+        return $this->render('AppBundle:Article/Partial:post_article_votes.html.twig', $params);
+    }
+
+    /**
+     * @Route("/articles/{id}/status", name="patch_article_status")
+     * @Method({"GET", "POST"})
+     * @param Int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function patchArticleStatusAction(int $id, Request $request): Response
+    {
+        $article = $this->getDoctrine()->getRepository('AppBundle:Article')
+            ->find($id);
+
+        if (!$article) {
+            $this->articleNotFound();
+        }
+
+        $myVote = $this->getDoctrine()->getRepository('AppBundle:ArticleVote')
+            ->findOneBy([
+                'article' => $article,
+                'user' => $this->getUser()
+            ]);
+
+        if ($article->getStatus()->getId() == 1) {
+            if ($request->isMethod('POST')) {
+                $status = $this->getDoctrine()->getRepository('AppBundle:ArticleStatus')
+                    ->find($request->request->get('status_id'));
+
+                if (!$status) {
+                    $this->statusNotFound();
+                }
+
+                if ($status->getId() == 2) {
+                    $article->setLink($request->request->get('link'));
+                }
+
+                $article->setStatus($status);
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($article);
+                $em->flush();
+
+                // TODO: Send a mail to user
+                return $this->redirectToRoute('get_article', [
+                    'id' => $article->getId()
+                ]);
+            }
+        }
+
+        return $this->render('AppBundle:Article/Partial:patch_article_status.html.twig', [
+            'article' => $article,
+            'myVote' => $myVote
+        ]);
     }
 
     /**
@@ -148,5 +201,13 @@ class ArticleController extends Controller
     private function articleNotFound(): NotFoundHttpException
     {
         throw new NotFoundHttpException('Article not found.');
+    }
+
+    /**
+     * @return NotFoundHttpException
+     */
+    private function statusNotFound(): NotFoundHttpException
+    {
+        throw new NotFoundHttpException('Status not found.');
     }
 }

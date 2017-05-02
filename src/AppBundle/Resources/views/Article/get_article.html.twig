@@ -36,23 +36,8 @@
                         </span>
                     </div>
                     {{ article.description|escape|markdown }}
-                    {{ render(controller('AppBundle:Article:postVotes', {id: article.id})) }}
-                    <p class="m-t-lg text-center">
-                        {% if article.status.label == 'article.status.pending' %}
-                            <a class="btn btn-w-m btn-primary m-r-sm"
-                               {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.accept'|trans }}</a>
-                            <a class="btn btn-w-m btn-danger m-l-sm"
-                               {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.refuse'|trans }}</a>
-                            {% if not myVote %}
-                                <br><span class="text-muted">{{ 'article.msg.must-vote' }}</span>
-                            {% endif %}
-                        {% elseif article.status.label == 'article.status.accepted' %}
-                            <a class="btn btn-info" target="_blank"
-                               href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
-                        {% else %}
-                            <span class="label label-default">{{ 'article.msg.refused'|trans }}</span>
-                        {% endif %}
-                    </p>
+                    {{ render(controller('AppBundle:Article:postArticleVotes', {id: article.id})) }}
+                    {{ render(controller('AppBundle:Article:patchArticleStatus', {id: article.id})) }}
                 </div>
             </div>
         </div>

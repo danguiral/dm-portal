@@ -40,17 +40,18 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        $form = $('[name="app_article_vote"]');
-        $input = $form.find('#app_article_vote_isAccepted');
+        $(function () {
+            $formVote = $('[name="app_article_vote"]');
+            $inputVote = $formVote.find('#app_article_vote_isAccepted');
 
-        $form.find('#article_vote_accept').click(function () {
-            console.log('click');
-            $input.val(1);
-            $form.submit();
+            $formVote.find('#article_vote_accept').click(function () {
+                $inputVote.val(1);
+                $formVote.submit();
+            });
+            $formVote.find('#article_vote_refuse').click(function () {
+                $inputVote.val(0);
+                $formVote.submit();
+            });
         });
-        $form.find('#article_vote_refuse').click(function () {
-            $input.val(0);
-            $form.submit();
-        });
-    })
+    });
 </script>
