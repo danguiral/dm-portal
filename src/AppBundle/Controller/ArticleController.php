@@ -9,6 +9,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Form\Type\ArticleVoteType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -118,6 +119,8 @@ class ArticleController extends Controller
 
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+
                 $articleVote->setArticle($article);
                 $articleVote->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
@@ -166,6 +169,8 @@ class ArticleController extends Controller
 
         if ($article->getStatus()->getId() == 1) {
             if ($request->isMethod('POST')) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+
                 $status = $this->getDoctrine()->getRepository('AppBundle:ArticleStatus')
                     ->find($request->request->get('status_id'));
 
