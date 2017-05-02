@@ -9,7 +9,7 @@
             <a href="{{ path('home') }}">{{ 'home.title'|trans }}</a>
         </li>
         <li class="active">
-            <strong>{{ 'articles-categories.title'|trans }}</strong>
+            <strong>{{ 'article-categories.title'|trans }}</strong>
         </li>
     </ol>
 {% endblock %}
@@ -33,11 +33,11 @@
                                 <tr>
                                     <td class="col-xs-1"># {{ category.id }}</td>
                                     <td class="project-title"><strong>{{ category.label }}</strong></td>
-                                    <td>{{ category.articles|length }} {{ 'article-categories.list.msg.nb-articles' }}</td>
+                                    <td>{{ category.articles|length }} {{ 'article-categories.list.msg.nb-articles'|transchoice(category.articles|length) }}</td>
                                     <td class="text-right">
                                         <a class="btn btn-danger btn-xs"
                                            href="{{ path('delete_category', {id: category.id}) }}"
-                                           {% if category.articles|length > 0 %}disabled{% endif %}>{{ 'article-category.list.action.view'|trans }}</a>
+                                           {% if category.articles|length > 0 %}disabled{% endif %}>{{ 'article-categories.list.action.remove'|trans }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}

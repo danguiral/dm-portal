@@ -91,7 +91,7 @@ class User implements UserInterface
      *
      * @return string
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword()
     {
         return $this->plainPassword;
     }
@@ -163,7 +163,7 @@ class User implements UserInterface
      *
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }

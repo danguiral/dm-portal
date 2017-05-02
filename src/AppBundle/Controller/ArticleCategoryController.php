@@ -6,6 +6,7 @@ use AppBundle\Entity\ArticleCategory;
 use AppBundle\Form\Type\ArticleCategoryType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ArticleCategoryController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/categories", name="get_categories")
      * @Method({"GET"})
      * @return Response
@@ -30,6 +32,7 @@ class ArticleCategoryController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/categories/add", name="post_categories")
      * @Method({"GET", "POST"})
      * @param Request $request
@@ -55,38 +58,7 @@ class ArticleCategoryController extends Controller
     }
 
     /**
-     * @Route("/categories/{id}/edit", name="put_category")
-     * @Method({"GET", "POST"})
-     * @param int $id
-     * @param Request $request
-     * @return Response
-     */
-    public function putCategoryAction(int $id, Request $request): Response
-    {
-        $category = $this->getDoctrine()->getRepository('AppBundle:ArticleCategory')
-            ->find($id);
-
-        if (!$category) {
-            $this->CategoryNotFound();
-        }
-
-        $form = $this->createForm(ArticleCategoryType::class, $category);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($category);
-            $em->flush();
-
-            return $this->redirectToRoute('get_categories');
-        }
-
-        return $this->render('AppBundle:Article:post_categories.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/categories/{id}/remove", name="delete_category")
      * @Method({"GET"})
      * @param int $id

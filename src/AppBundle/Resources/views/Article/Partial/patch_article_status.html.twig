@@ -1,33 +1,32 @@
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_ADMIN') and myVote %}
 <form action="{{ path('patch_article_status', {id: article.id}) }}" method="post" name="app_article_status">
     <input type="hidden" id="app_article_status" name="status_id"/>
     <input type="hidden" id="app_article_link" name="link"/>
     {% endif %}
-    <p class="m-t-lg text-center">
-        {% if article.status.id == 1 %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <button id="article_status_accept" class="btn btn-w-m btn-primary m-r-sm"
-                        {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.accept'|trans }}</button>
-                <button id="article_status_refuse" class="btn btn-w-m btn-danger m-l-sm"
-                        {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.refuse'|trans }}</button>
-                {% if not myVote %}
-                    <br><span class="text-muted">{{ 'article.msg.must-vote' }}</span>
+    {% if myVote %}
+        <p class="m-t-lg text-center">
+            {% if article.status.id == 1 %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <button id="article_status_accept" class="btn btn-w-m btn-primary m-r-sm"
+                            {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.accept'|trans }}</button>
+                    <button id="article_status_refuse" class="btn btn-w-m btn-danger m-l-sm"
+                            {% if not myVote %}disabled{% endif %}>{{ 'article.form.action.refuse'|trans }}</button>
+                {% else %}
+                    <span class="label label-warning">{{ 'article.status.pending'|trans }}</span>
                 {% endif %}
+            {% elseif article.status.id == 2 %}
+                <a class="btn btn-info" target="_blank"
+                   href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
             {% else %}
-                <span class="label label-warning">{{ 'article.msg.pending'|trans }}</span>
+                <span class="label label-default">{{ 'article.status.refused'|trans }}</span>
             {% endif %}
-        {% elseif article.status.id == 2 %}
-            <a class="btn btn-info" target="_blank"
-               href="{{ article.link }}">{{ 'article.action.edit-document'|trans }}</a>
-        {% else %}
-            <span class="label label-default">{{ 'article.msg.refused'|trans }}</span>
-        {% endif %}
-    </p>
-    {% if is_granted('ROLE_ADMIN') %}
+        </p>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') and myVote %}
 </form>
 {% endif %}
 
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_ADMIN') and myVote %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             $('[name="app_article_status"] #article_status_accept').click(function (e) {
@@ -42,10 +41,10 @@
                     text: "{{ 'article.status.accept.msg'|trans }}",
                     type: "input",
                     showCancelButton: true,
-                    cancelButtonText: "{{ 'article.status.button.cancel'|trans }}",
+                    cancelButtonText: "{{ 'article.status.action.cancel'|trans }}",
                     closeOnConfirm: false,
-                    confirmButtonText: "{{ 'article.status.button.confirm'|trans }}",
-                    inputPlaceholder: "{{ 'article.link.placeholder'|trans }}"
+                    confirmButtonText: "{{ 'article.form.action.accept'|trans }}",
+                    inputPlaceholder: "{{ 'entity.article.link.placeholder'|trans }}"
                 }, function (link) {
                     if (link === false) {
                         return false;
@@ -73,8 +72,8 @@
                     text: "{{ 'article.status.refuse.msg'|trans }}",
                     type: "warning",
                     showCancelButton: true,
-                    cancelButtonText: "{{ 'article.status.button.cancel'|trans }}",
-                    confirmButtonText: "{{ 'article.status.button.confirm'|trans }}",
+                    cancelButtonText: "{{ 'article.status.action.cancel'|trans }}",
+                    confirmButtonText: "{{ 'article.form.action.refuse'|trans }}",
                     closeOnConfirm: false
                 }, function () {
                     $status.val(3);

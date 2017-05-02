@@ -1,1 +1,59 @@
-app.layout.copyright: "**Copyright** Darkmira © 2017"
+security.signin.title: Portail Darkmira
+security.signin.action.submit: Connexion
+security.signin.button.no-account: Pas encore de compte ?
+
+security.signup.title: Inscription au Portail Darkmira
+security.signup.button.have-account: Déjà un compte ?
+
+navigation.home.title: Accueil
+navigation.articles.title: Articles
+navigation.articles-categories.title: 'Thèmes'
+
+home.title: Accueil
+
+articles.title: Articles
+articles.list.title: Liste des articles
+articles.action.add: Ajouter un article
+articles.list.action.view: 'Détails'
+
+articles.add.title: Ajout d'un article
+articles.add.action.cancel: Annuler
+articles.add.action.submit: Ajouter
+
+article.action.return: 'Retour à la liste'
+article.action.edit-document: Rédiger l'article
+article.form.action.accept: 'Accepter la rédaction'
+article.form.action.refuse: 'Refuser la rédaction'
+
+article.status.pending: En attente
+article.status.accepted: 'Accepté'
+article.status.refused: 'Refusé'
+article.status.accept.title: ''
+article.status.accept.msg: Merci de renseigner le lien Google Doc
+article.status.action.cancel: Annuler
+article.status.refuse.title: Attention
+article.status.refuse.msg: 'Tu es sur le point de refuder la rédaction'
+
+article-categories.title: 'Thèmes'
+article-categories.list.title: 'Liste des thèmes'
+article-categories.action.add: 'Ajouter un thème'
+article-categories.list.msg.nb-articles: article|]1,+Inf[articles
+article-categories.list.action.remove: Supprimer
+
+article-categories.add.title: 'Ajouter un thème'
+article-categories.add.action.cancel: 'Annuler'
+article-categories.add.action.submit: 'Ajouter'
+
+
+entity.user.email.placeholder: Email
+entity.user.password.placeholder: Mot de passe
+entity.user.confirm.placeholder: Mot de passe (confirmation)
+
+entity.article.title.placeholder: Titre
+entity.article.description.placeholder: Description
+entity.article.link.placeholder: Lien Google Docs
+
+entity.article-category.label.placeholder: Label
+
+layout.action.signout: Déconnexion
+layout.copyright: '**Copyright** Darkmira © 2017'

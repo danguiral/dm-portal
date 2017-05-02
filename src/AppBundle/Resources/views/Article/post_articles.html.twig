@@ -38,11 +38,11 @@
                     </div>
                     <div class="form-group">
                         {{ form_errors(form.category) }}
-                        {{ form_widget(form.category, {'attr': {'class': 'form-control', 'placeholder': 'entity.user.category.placeholder'}}) }}
+                        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="form-group">
                         {{ form_errors(form.description) }}
-                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'entity.user.description.placeholder'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'entity.article.description.placeholder'}}) }}
                     </div>
                     <button type="submit" class="btn btn-primary block full-width m-b">{{ 'articles.add.action.submit'|trans }}</button>
                     {{ form_rest(form) }}
