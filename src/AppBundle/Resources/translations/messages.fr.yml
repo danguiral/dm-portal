@@ -50,7 +50,7 @@ entity.user.password.placeholder: Mot de passe
 entity.user.confirm.placeholder: Mot de passe (confirmation)
 
 entity.article.title.placeholder: Titre
-entity.article.description.placeholder: Description
+entity.article.description.placeholder: Synopsys
 entity.article.link.placeholder: Lien Google Docs
 
 entity.article-category.label.placeholder: Label

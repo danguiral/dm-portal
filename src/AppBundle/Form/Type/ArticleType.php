@@ -18,11 +18,13 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('category', EntityType::class, array(
+            ->add('description', TextareaType::class, [
+                'attr' => ['rows' => 5]
+            ])
+            ->add('category', EntityType::class, [
                 'class' => 'AppBundle:ArticleCategory',
                 'choice_label' => 'label',
-            ));
+            ]);
         ;
     }
     

@@ -45,7 +45,10 @@ class ArticleController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $status = $em->getRepository('AppBundle:ArticleStatus')
+                ->find(1);
             $article->setUser($this->getUser());
+            $article->setStatus($status);
             $em->persist($article);
             $em->flush();
 

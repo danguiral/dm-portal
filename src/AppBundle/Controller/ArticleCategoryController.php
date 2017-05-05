@@ -73,6 +73,10 @@ class ArticleCategoryController extends Controller
             $this->CategoryNotFound();
         }
 
+        if (count($category->getArticles()) > 0) {
+            return $this->redirectToRoute('get_categories');
+        }
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($category);
         $em->flush();
