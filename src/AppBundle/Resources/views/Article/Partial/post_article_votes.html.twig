@@ -6,7 +6,9 @@
         <h1 class="text-right">
             {% if is_granted('ROLE_ADMIN') %}
                 {% if myVote %}
-                    <span class="m-r-md {% if myVote.accepted %}text-info{% else %}text-muted{% endif %}">
+                    <span class="m-r-md {% if myVote.accepted %}text-info{% else %}text-muted{% endif %}"
+                          data-toggle="tooltip" data-placement="left"
+                          title="{% for vote in article.acceptedVotes %}{{ vote.user.email }} {% endfor %}">
                         <span>{{ article.acceptedVotes|length }}</span>
                         <i class="fa fa-thumbs-up"></i>
                     </span>
@@ -28,7 +30,9 @@
         <h1 class="text-left">
             {% if is_granted('ROLE_ADMIN') %}
                 {% if myVote %}
-                    <span class="m-l-md {% if not myVote.accepted %}text-danger{% else %}text-muted{% endif %}">
+                    <span class="m-l-md {% if not myVote.accepted %}text-danger{% else %}text-muted{% endif %}"
+                          data-toggle="tooltip" data-placement="right"
+                          title="{% for vote in article.refusedVotes %}{{ vote.user.email }} {% endfor %}">
                         <span>{{ article.refusedVotes|length }}</span>
                         <i class="fa fa-thumbs-down"></i>
                     </span>
