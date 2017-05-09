@@ -49,6 +49,9 @@ email.new-article.title: Nouvelle demande d'article
 email.new-article.main-title: Nouvelle demande d'article de
 email.new-article.action.vote: Je vais voter !
 
+email.vote-article.title: Nouveau vote
+email.vote-article.main-title: Nouveau vote de
+email.vote-article.vote: '{0} Il a voté négativement |{1} Il a voté positivement'
 
 # Entities
 entity.user.email.placeholder: Email

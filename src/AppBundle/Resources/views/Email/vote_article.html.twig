@@ -1,0 +1,54 @@
+{% extends '@App/Email/base.html.twig' %}
+
+{% block title parent() ~ ' - ' ~ 'email.vote-article.title'|trans %}
+
+{% block content %}
+    <table  cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="content-block">
+                <h3>{{ 'email.vote-article.main-title'|trans }} <span
+                            class="label label-info">{{ vote.user.email }}</span></h3>
+                <p>{{ 'email.vote-article.vote'|transchoice(vote.accepted) }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label label-warning">Catégorie N°1</span>
+                Mon super article N°1
+            </td>
+        </tr>
+        <tr>
+            <td class="content-block">
+                <p>We may need to send you critical information about our service and it is important that we have an accurate email address.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="content-block aligncenter">
+                <a href="#" class="btn-primary">Voir l'article</a>
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="content-block">
+                <h3>{{ 'email.vote-article.main-title'|trans }} <span
+                            class="label label-info">{{ article.user.email }}</span></h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label label-warning">{{ article.category.label }}</span>
+                {{ article.title }}
+            </td>
+        </tr>
+        <tr>
+            <td class="content-block">{{ article.description|escape|markdown }}</td>
+        </tr>
+        <tr>
+            <td class="content-block aligncenter">
+                <a href="{{ url('get_article', {id: article.id}) }}"
+                   class="btn-primary">{{ 'email.new-article.action.vote'|trans }}</a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -122,6 +122,9 @@ class ArticleController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+                if ($myVote) {
+                    $this->redirectToRoute('get_article');
+                }
 
                 $articleVote->setArticle($article);
                 $articleVote->setUser($this->getUser());
@@ -129,7 +132,8 @@ class ArticleController extends Controller
                 $em->persist($articleVote);
                 $em->flush();
 
-                // TODO: Send a mail to moderators and user
+                $this->sendMailVoteArticle($articleVote);
+
                 return $this->redirectToRoute('get_article', [
                     'id' => $article->getId()
                 ]);
@@ -204,10 +208,10 @@ class ArticleController extends Controller
 
     private function sendMailNewArticle(Article $article)
     {
-        $moderators = $this->getDoctrine()->getRepository('AppBundle:User')
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')
             ->findModerators();
 
-        foreach ($moderators as $user) {
+        foreach ($users as $user) {
             $message = \Swift_Message::newInstance()
                 ->setSubject($this->get('translator')->trans('email.new-article.title'))
                 ->setFrom('no-reply@darkmira.com', 'Darkmira')
@@ -215,6 +219,27 @@ class ArticleController extends Controller
                 ->setBody(
                     $this->get('templating')->render('@App/Email/new_article.html.twig', [
                         'article' => $article
+                    ]),
+                    'text/html'
+                );
+            $this->get('mailer')->send($message);
+        }
+    }
+
+    private function sendMailVoteArticle(ArticleVote $vote)
+    {
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')
+            ->findModerators();
+
+        foreach ($users as $user) {
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->get('translator')->trans('email.vote-article.title'))
+                ->setFrom('no-reply@darkmira.com', 'Darkmira')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->get('templating')->render('@App/Email/vote_article.html.twig', [
+                        'article' => $vote->getArticle(),
+                        'vote' => $vote
                     ]),
                     'text/html'
                 );
