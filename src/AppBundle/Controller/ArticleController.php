@@ -52,7 +52,8 @@ class ArticleController extends Controller
             $em->persist($article);
             $em->flush();
 
-            // TODO: Send a mail to moderators
+            $this->sendMailNewArticle($article);
+
             return $this->redirectToRoute('get_articles');
         }
 
@@ -199,6 +200,26 @@ class ArticleController extends Controller
             'article' => $article,
             'myVote' => $myVote
         ]);
+    }
+
+    private function sendMailNewArticle(Article $article)
+    {
+        $moderators = $this->getDoctrine()->getRepository('AppBundle:User')
+            ->findModerators();
+
+        foreach ($moderators as $user) {
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->get('translator')->trans('email.new-article.title'))
+                ->setFrom('no-reply@darkmira.com', 'Darkmira')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->get('templating')->render('@App/Email/new_article.html.twig', [
+                        'article' => $article
+                    ]),
+                    'text/html'
+                );
+            $this->get('mailer')->send($message);
+        }
     }
 
     /**

@@ -44,7 +44,13 @@ article-categories.add.title: 'Ajouter un thème'
 article-categories.add.action.cancel: 'Annuler'
 article-categories.add.action.submit: 'Ajouter'
 
+# Emails
+email.new-article.title: Nouvelle demande d'article
+email.new-article.main-title: Nouvelle demande d'article de
+email.new-article.action.vote: Je vais voter !
 
+
+# Entities
 entity.user.email.placeholder: Email
 entity.user.password.placeholder: Mot de passe
 entity.user.confirm.placeholder: Mot de passe (confirmation)
@@ -55,5 +61,6 @@ entity.article.link.placeholder: Lien Google Docs
 
 entity.article-category.label.placeholder: Label
 
+# Layout
 layout.action.signout: Déconnexion
 layout.copyright: '**Copyright** Darkmira © 2017'
