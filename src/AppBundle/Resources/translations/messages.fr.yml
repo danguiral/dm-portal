@@ -53,6 +53,11 @@ email.vote-article.title: Nouveau vote
 email.vote-article.main-title: Nouveau vote de
 email.vote-article.vote: '{0} Il a voté négativement |{1} Il a voté positivement'
 
+email.status-article.title: Article - Changement de statut
+email.status-article.main-title: Changement de statut d'un article
+email.status-article.msg.status: Statut
+email.status-article.action.link: 'Accéder au Google Doc'
+
 # Entities
 entity.user.email.placeholder: Email
 entity.user.password.placeholder: Mot de passe

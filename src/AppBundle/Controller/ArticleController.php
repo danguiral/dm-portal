@@ -193,7 +193,8 @@ class ArticleController extends Controller
                 $em->merge($article);
                 $em->flush();
 
-                // TODO: Send a mail to user
+                $this->sendMailStatusArticle($article);
+
                 return $this->redirectToRoute('get_article', [
                     'id' => $article->getId()
                 ]);
@@ -240,6 +241,27 @@ class ArticleController extends Controller
                     $this->get('templating')->render('@App/Email/vote_article.html.twig', [
                         'article' => $vote->getArticle(),
                         'vote' => $vote
+                    ]),
+                    'text/html'
+                );
+            $this->get('mailer')->send($message);
+        }
+    }
+
+    private function sendMailStatusArticle(Article $article)
+    {
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')
+            ->findModerators();
+        $users[] = $this->getUser();
+
+        foreach ($users as $user) {
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->get('translator')->trans('email.status-article.title'))
+                ->setFrom('no-reply@darkmira.com', 'Darkmira')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->get('templating')->render('@App/Email/status_article.html.twig', [
+                        'article' => $article
                     ]),
                     'text/html'
                 );
