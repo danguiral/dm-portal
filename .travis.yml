@@ -1,5 +1,7 @@
 sudo: required
 
+language: php
+
 services:
   - docker
 
@@ -11,5 +13,5 @@ script: php bin/console about
 
 script:
   - docker-compose build
-  - docker-compose run --rm app bin/console security:check
-  - docker-compose run --rm app bin/console php bin/console about
+  - docker-compose run --rm web bin/console security:check
+  - docker-compose run --rm web bin/console php bin/console about
