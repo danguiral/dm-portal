@@ -213,7 +213,7 @@ class ArticleController extends Controller
             ->findModerators();
 
         foreach ($users as $user) {
-            $message = \Swift_Message::newInstance()
+            $message = (new \Swift_Message())
                 ->setSubject($this->get('translator')->trans('email.new-article.title'))
                 ->setFrom('no-reply@darkmira.com', 'Darkmira')
                 ->setTo($user->getEmail())
