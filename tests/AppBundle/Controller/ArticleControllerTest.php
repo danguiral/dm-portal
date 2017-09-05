@@ -23,12 +23,11 @@ class ArticleControllerTest extends WebTestCase
         $this->client->followRedirects(true);
         \Tests\AppBundle\Utils\Database::prepareDb($this->client);
     }
-
-
+    
     /*
      * GET /articles
      */
-    public function testGetArticles()
+    public function testShowArticles()
     {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
 
@@ -36,10 +35,23 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains('Articles', $crawler->filter('h2')->text());
     }
+
+    /*
+     * GET /article/6
+     */
+    public function testShowArticle()
+    {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+
+        $crawler = $this->client->request('GET', '/articles/6');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains('Le super article de Xu', $crawler->filter('h1')->text());
+    }
+
     /*
      * POST /articles/add
      */
-    public function testPostArticle()
+    public function testCreateArticle()
     {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
 

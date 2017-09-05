@@ -33,7 +33,7 @@ class Database
 
     public static function getLast(Client $client, $repository) {
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        var_dump($repository);
+
         return $em->getRepository($repository)->findOneBy(
             [],
             ['id' => 'DESC']
