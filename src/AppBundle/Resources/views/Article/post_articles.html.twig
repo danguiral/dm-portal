@@ -31,7 +31,6 @@
                 </div>
                 <div class="ibox-content">
                     {{ form_start(form) }}
-                    {{ form_errors(form) }}
                     <div class="form-group">
                         {{ form_errors(form.title) }}
                         {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'entity.article.title.placeholder'}}) }}

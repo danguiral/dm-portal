@@ -23,7 +23,7 @@ class ArticleControllerTest extends WebTestCase
         $this->client->followRedirects(true);
         \Tests\AppBundle\Utils\Database::prepareDb($this->client);
     }
-    
+
     /*
      * GET /articles
      */
@@ -67,11 +67,54 @@ class ArticleControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $article = \Tests\AppBundle\Utils\Database::getLast($this->client, Article::class);
-
+        //var_dump($this->client->getResponse());
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('Article1',$article->getTitle());
         $this->assertEquals(1,$article->getCategory()->getId());
         $this->assertEquals('description',$article->getDescription());
 
+    }
+
+    /*
+     * POST /articles/add
+     */
+    public function testCreateArticleWithMissingTitle()
+    {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+
+        $crawler = $this->client->request('GET', '/articles/add');
+        $form = $crawler->filter('form')->form();
+        $form->setValues([
+            "app_article" => [
+                "category" => 1,
+                "description" => "description"
+            ]
+        ]);
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('/articles/add', $this->client->getRequest()->getRequestUri());
+        $this->assertContains('Cette valeur ne doit pas être vide.', $crawler->filter('html')->text());
+    }
+    /*
+     * POST /articles/add
+     */
+    public function testCreateArticleWithMissingDescription()
+    {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+
+        $crawler = $this->client->request('GET', '/articles/add');
+        $form = $crawler->filter('form')->form();
+        $form->setValues([
+            "app_article" => [
+                "title" => "Article1",
+                "category" => 1
+            ]
+        ]);
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('/articles/add', $this->client->getRequest()->getRequestUri());
+        $this->assertContains('Cette valeur ne doit pas être vide.', $crawler->filter('html')->text());
     }
 }
