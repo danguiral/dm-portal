@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Utils;
 
-use AppBundle\Entity\User;
-use Exception;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use \Symfony\Bundle\FrameworkBundle\Client;

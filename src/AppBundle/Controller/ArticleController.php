@@ -123,9 +123,10 @@ class ArticleController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
                 if ($myVote) {
-                    $this->redirectToRoute('get_article');
+                    $this->redirectToRoute('get_article', [
+                        'id' => $article->getId()
+                    ]);
                 }
-
                 $articleVote->setArticle($article);
                 $articleVote->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
@@ -233,7 +234,7 @@ class ArticleController extends Controller
             ->findModerators();
 
         foreach ($users as $user) {
-            $message = \Swift_Message::newInstance()
+            $message = (new \Swift_Message())
                 ->setSubject($this->get('translator')->trans('email.vote-article.title'))
                 ->setFrom('no-reply@darkmira.com', 'Darkmira')
                 ->setTo($user->getEmail())
@@ -255,7 +256,7 @@ class ArticleController extends Controller
         $users[] = $this->getUser();
 
         foreach ($users as $user) {
-            $message = \Swift_Message::newInstance()
+            $message = (new \Swift_Message())
                 ->setSubject($this->get('translator')->trans('email.status-article.title'))
                 ->setFrom('no-reply@darkmira.com', 'Darkmira')
                 ->setTo($user->getEmail())

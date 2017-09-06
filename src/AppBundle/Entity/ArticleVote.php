@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ArticleVote
  *
@@ -33,6 +33,8 @@ class ArticleVote
      * @var bool
      *
      * @ORM\Column(name="is_accepted", type="boolean")
+     *
+     * @Assert\NotNull()
      */
     private $isAccepted;
 

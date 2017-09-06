@@ -3,15 +3,10 @@
 namespace Tests\AppBundle\Controller;
 
 use AppBundle\Entity\Article;
-use AppBundle\Entity\User;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use AppBundle\Entity\ArticleVote;
+use AppBundle\Repository\ArticleVoteRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\BrowserKit\Cookie;
+
 
 class ArticleControllerTest extends WebTestCase
 {
@@ -25,7 +20,8 @@ class ArticleControllerTest extends WebTestCase
     }
 
     /*
-     * GET /articles
+     * URL : GET /articles
+     * Test to display all articles
      */
     public function testShowArticles()
     {
@@ -37,7 +33,8 @@ class ArticleControllerTest extends WebTestCase
     }
 
     /*
-     * GET /article/6
+     * URL : GET /article/{id}
+     * Test to display an article
      */
     public function testShowArticle()
     {
@@ -49,7 +46,8 @@ class ArticleControllerTest extends WebTestCase
     }
 
     /*
-     * POST /articles/add
+     * URL : POST /articles/add
+     * Test the creation of an article
      */
     public function testCreateArticle()
     {
@@ -69,16 +67,17 @@ class ArticleControllerTest extends WebTestCase
         $article = \Tests\AppBundle\Utils\Database::getLast($this->client, Article::class);
         //var_dump($this->client->getResponse());
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('Article1',$article->getTitle());
-        $this->assertEquals(1,$article->getCategory()->getId());
-        $this->assertEquals('description',$article->getDescription());
+        $this->assertEquals('Article1', $article->getTitle());
+        $this->assertEquals(1, $article->getCategory()->getId());
+        $this->assertEquals('description', $article->getDescription());
 
     }
 
     /*
-     * POST /articles/add
+     * URL : POST /articles/add
+     * Test the creation of an article with the field 'title' leave blank
      */
-    public function testCreateArticleWithMissingTitle()
+    public function testCreateArticleWithoutTitle()
     {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
 
@@ -96,10 +95,12 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals('/articles/add', $this->client->getRequest()->getRequestUri());
         $this->assertContains('Cette valeur ne doit pas être vide.', $crawler->filter('html')->text());
     }
+
     /*
-     * POST /articles/add
+     * URL : POST /articles/add
+     * Test the creation of an article with the field 'description' leave blank
      */
-    public function testCreateArticleWithMissingDescription()
+    public function testCreateArticleWithoutDescription()
     {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
 
@@ -116,5 +117,81 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('/articles/add', $this->client->getRequest()->getRequestUri());
         $this->assertContains('Cette valeur ne doit pas être vide.', $crawler->filter('html')->text());
+    }
+
+    /**
+     * URL : POST /articles/{id}/votes/add
+     * test the vote with different values ​​for the parameter "isAccepted"
+     * case "isAccepted" is null : check status code is 200, check raw has not benn inserted
+     * in the other cases : check status code is 200, check the raw has been inserted and the vote value
+     *
+     * @dataProvider addVoteProvider
+     */
+    public function testAddVote($vote, $waiting)
+    {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+
+        $crawler = $this->client->request('POST', '/articles/3/votes/add');
+
+        $nb1 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+
+        $form = $crawler->filter('form[name="app_article_vote"]')->form();
+        $form->setValues([
+            "app_article_vote" => [
+                "isAccepted" => $vote
+            ]
+        ]);
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        if($vote !== null) {
+            $currentUser = \Tests\AppBundle\Utils\Auth::getUser($this->client);
+            $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
+            $vote = $em->getRepository(ArticleVote::class)->findOneBy(['user' => $currentUser, 'article' => 3]);
+            $this->assertEquals(count($vote), 1);
+            $this->assertEquals($vote->isAccepted(), $waiting);
+        } else {
+            $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+            $this->assertEquals($nb1, $nb2);
+        }
+    }
+
+    public function addVoteProvider()
+    {
+        return [
+            [1,true],
+            [0,false],
+            [3,true],
+            ['a',true],
+            [null,false]
+        ];
+    }
+
+    /**
+     * URL : POST /articles/{id}/votes/add
+     * submit 2 form and only one vote should be in database
+     *
+     */
+    public function testNoInsertManyVotes() {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+
+        $nb1 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+
+        for ($iteration = 0; $iteration < 2; $iteration++) {
+            $crawler = $this->client->request('POST', '/articles/3/votes/add');
+
+            $form = $crawler->filter('form[name="app_article_vote"]')->form();
+            $form->setValues([
+                "app_article_vote" => [
+                    "isAccepted" => 1
+                ]
+            ]);
+            $crawler = $this->client->submit($form);
+        }
+
+
+        $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+
+        $this->assertEquals($nb1+1, $nb2);
     }
 }
