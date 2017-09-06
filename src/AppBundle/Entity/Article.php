@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Article
  *
@@ -37,9 +36,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     *
      * @Assert\NotBlank()
-
      */
     private $title;
 
@@ -47,9 +44,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-     *
      * @Assert\NotBlank()
-
      */
     private $description;
 
@@ -88,7 +83,6 @@ class Article
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ArticleStatus")
      * @ORM\JoinColumn(nullable=false)
-     *
      */
     private $status;
 
@@ -313,14 +307,5 @@ class Article
     public function getStatus()
     {
         return $this->status;
-    }
-
-    public static function fromArray($data) {
-        $object = new self();
-        foreach ($data as $property => $value) {
-            $property = "set".ucfirst($property);
-            $object->$property($value);
-        }
-        return $object;
     }
 }

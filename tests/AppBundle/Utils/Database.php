@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\AppBundle\Utils;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -9,10 +8,8 @@ use \Symfony\Bundle\FrameworkBundle\Client;
 
 class Database
 {
-
     public static function cleanDb(Client $client)
     {
-
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $connection = $em->getConnection();
         $connection->exec('SET FOREIGN_KEY_CHECKS = 0;');
@@ -47,12 +44,12 @@ class Database
 
     public static function count(Client $client, $repository)
     {
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager')->getRepository($repository);
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository($repository);
 
         return $query = $em->createQueryBuilder('t')
             ->select('COUNT(t)')
             ->getQuery()
             ->getSingleScalarResult();
-
     }
 }

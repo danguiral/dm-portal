@@ -1,12 +1,10 @@
 <?php
-
-namespace Tests\AppBundle\Controller;
+namespace tests\AppBundle\Controller;
 
 use AppBundle\Entity\Article;
 use AppBundle\Entity\ArticleVote;
 use AppBundle\Repository\ArticleVoteRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 
 class ArticleControllerTest extends WebTestCase
 {
@@ -56,21 +54,19 @@ class ArticleControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/articles/add');
         $form = $crawler->filter('form')->form();
         $form->setValues([
-            "app_article" => [
-                "title" => "Article1",
-                "category" => 1,
-                "description" => "description"
+            'app_article' => [
+                'title' => 'Article1',
+                'category' => 1,
+                'description' => 'description'
             ]
         ]);
         $this->client->submit($form);
 
         $article = \Tests\AppBundle\Utils\Database::getLast($this->client, Article::class);
-        //var_dump($this->client->getResponse());
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('Article1', $article->getTitle());
         $this->assertEquals(1, $article->getCategory()->getId());
         $this->assertEquals('description', $article->getDescription());
-
     }
 
     /*
@@ -84,9 +80,9 @@ class ArticleControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/articles/add');
         $form = $crawler->filter('form')->form();
         $form->setValues([
-            "app_article" => [
-                "category" => 1,
-                "description" => "description"
+            'app_article' => [
+                'category' => 1,
+                'description' => 'description'
             ]
         ]);
         $crawler = $this->client->submit($form);
@@ -107,9 +103,9 @@ class ArticleControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/articles/add');
         $form = $crawler->filter('form')->form();
         $form->setValues([
-            "app_article" => [
-                "title" => "Article1",
-                "category" => 1
+            'app_article' => [
+                'title' => 'Article1',
+                'category' => 1
             ]
         ]);
         $crawler = $this->client->submit($form);
@@ -137,8 +133,8 @@ class ArticleControllerTest extends WebTestCase
 
         $form = $crawler->filter('form[name="app_article_vote"]')->form();
         $form->setValues([
-            "app_article_vote" => [
-                "isAccepted" => $vote
+            'app_article_vote' => [
+                'isAccepted' => $vote
             ]
         ]);
         $crawler = $this->client->submit($form);
@@ -147,7 +143,8 @@ class ArticleControllerTest extends WebTestCase
         if($vote !== null) {
             $currentUser = \Tests\AppBundle\Utils\Auth::getUser($this->client);
             $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-            $vote = $em->getRepository(ArticleVote::class)->findOneBy(['user' => $currentUser, 'article' => 3]);
+            $vote = $em->getRepository(ArticleVote::class)
+                ->findOneBy(['user' => $currentUser, 'article' => 3]);
             $this->assertEquals(count($vote), 1);
             $this->assertEquals($vote->isAccepted(), $waiting);
         } else {
@@ -156,7 +153,7 @@ class ArticleControllerTest extends WebTestCase
         }
     }
 
-    public function addVoteProvider()
+    private function addVoteProvider()
     {
         return [
             [1,true],
@@ -182,13 +179,12 @@ class ArticleControllerTest extends WebTestCase
 
             $form = $crawler->filter('form[name="app_article_vote"]')->form();
             $form->setValues([
-                "app_article_vote" => [
-                    "isAccepted" => 1
+                'app_article_vote' => [
+                    'isAccepted' => 1
                 ]
             ]);
             $crawler = $this->client->submit($form);
         }
-
 
         $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
 

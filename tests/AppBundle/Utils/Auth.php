@@ -5,23 +5,23 @@ namespace Tests\AppBundle\Utils;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use \Symfony\Bundle\FrameworkBundle\Client;
+
 class Auth
 {
-    CONST EMAIL = "fdanguiral@darkmira.com";
-    CONST FIREWALL_CONTEXT = "main";
+    CONST EMAIL = 'fdanguiral@darkmira.com';
+    CONST FIREWALL_CONTEXT = 'main';
 
     public static function getUser(Client $client)
     {
-        $user =  $client->getContainer()
+        $user = $client->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AppBundle:User')
             ->findOneBy(['email' => Auth::EMAIL]);
 
-        if (!$user)
-            throw new \Exception("User not found");
-
+        if (!$user) {
+            throw new \Exception('User not found');
+        }
         return $user;
-
     }
 
     public static function logIn(Client $client)
@@ -36,6 +36,4 @@ class Auth
         $cookie = new Cookie($session->getName(), $session->getId());
         $client->getCookieJar()->set($cookie);
     }
-
-
 }

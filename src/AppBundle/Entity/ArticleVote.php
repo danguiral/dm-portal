@@ -33,7 +33,6 @@ class ArticleVote
      * @var bool
      *
      * @ORM\Column(name="is_accepted", type="boolean")
-     *
      * @Assert\NotNull()
      */
     private $isAccepted;

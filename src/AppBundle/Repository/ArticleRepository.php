@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository
 {
-
     public function findAll()
     {
         return $this->findBy([], ['insertedAt' => 'DESC', 'id' => 'DESC']);
