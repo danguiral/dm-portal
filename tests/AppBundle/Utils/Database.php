@@ -12,13 +12,11 @@ class Database
     {
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $connection = $em->getConnection();
-        $connection->exec('SET FOREIGN_KEY_CHECKS = 0;');
         $loader = new Loader();
         $purger = new ORMPurger($em);
         $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
         $executor = new ORMExecutor($em, $purger);
         $executor->execute($loader->getFixtures());
-        $connection->exec('SET FOREIGN_KEY_CHECKS = 0;');
     }
 
     public static function loadFixtures(Client $client)

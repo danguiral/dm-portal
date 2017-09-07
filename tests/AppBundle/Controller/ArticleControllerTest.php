@@ -1,4 +1,5 @@
 <?php
+
 namespace tests\AppBundle\Controller;
 
 use AppBundle\Entity\Article;
@@ -118,18 +119,13 @@ class ArticleControllerTest extends WebTestCase
     /**
      * URL : POST /articles/{id}/votes/add
      * test the vote with different values ​​for the parameter "isAccepted"
-     * case "isAccepted" is null : check status code is 200, check raw has not benn inserted
-     * in the other cases : check status code is 200, check the raw has been inserted and the vote value
      *
      * @dataProvider addVoteProvider
      */
-    public function testAddVote($vote, $waiting)
+    public function testAddVote($vote, $expected)
     {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
-
         $crawler = $this->client->request('POST', '/articles/3/votes/add');
-
-        $nb1 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
 
         $form = $crawler->filter('form[name="app_article_vote"]')->form();
         $form->setValues([
@@ -138,30 +134,47 @@ class ArticleControllerTest extends WebTestCase
             ]
         ]);
         $crawler = $this->client->submit($form);
+        $currentUser = \Tests\AppBundle\Utils\Auth::getUser($this->client);
+        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
+        $vote = $em->getRepository(ArticleVote::class)
+            ->findOneBy(['user' => $currentUser, 'article' => 3]);
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        if($vote !== null) {
-            $currentUser = \Tests\AppBundle\Utils\Auth::getUser($this->client);
-            $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-            $vote = $em->getRepository(ArticleVote::class)
-                ->findOneBy(['user' => $currentUser, 'article' => 3]);
-            $this->assertEquals(count($vote), 1);
-            $this->assertEquals($vote->isAccepted(), $waiting);
-        } else {
-            $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
-            $this->assertEquals($nb1, $nb2);
-        }
+        $this->assertEquals(count($vote), 1);
+        $this->assertEquals($vote->isAccepted(), $expected);
     }
 
-    private function addVoteProvider()
+    /**
+     * Data provider
+     */
+    public function addVoteProvider()
     {
         return [
-            [1,true],
-            [0,false],
-            [3,true],
-            ['a',true],
-            [null,false]
+            [1, true],
+            [0, false],
+            [3, true],
+            ['a', true]
         ];
+    }
+
+    /**
+     * URL : POST /articles/{id}/votes/add
+     * test the vote without the parameter "isAccepted"
+     *
+     * @dataProvider addVoteProvider
+     */
+    public function testAddVoteWithoutIsAccepted($vote, $expected)
+    {
+        \Tests\AppBundle\Utils\Auth::logIn($this->client);
+        $nb1 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+
+        $crawler = $this->client->request('POST', '/articles/3/votes/add');
+        $form = $crawler->filter('form[name="app_article_vote"]')->form();
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
+        $this->assertEquals($nb1, $nb2);
     }
 
     /**
@@ -169,7 +182,8 @@ class ArticleControllerTest extends WebTestCase
      * submit 2 form and only one vote should be in database
      *
      */
-    public function testNoInsertManyVotes() {
+    public function testNoInsertManyVotes()
+    {
         \Tests\AppBundle\Utils\Auth::logIn($this->client);
 
         $nb1 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
@@ -188,6 +202,6 @@ class ArticleControllerTest extends WebTestCase
 
         $nb2 = \Tests\AppBundle\Utils\Database::count($this->client, ArticleVote::class);
 
-        $this->assertEquals($nb1+1, $nb2);
+        $this->assertEquals($nb1 + 1, $nb2);
     }
 }

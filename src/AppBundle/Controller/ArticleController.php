@@ -113,6 +113,8 @@ class ArticleController extends Controller
 
         if ($article->getStatus()->getId() == 1) {
             $articleVote = new ArticleVote();
+            $articleVote->setArticle($article);
+            $articleVote->setUser($this->getUser());
             $form = $this->createForm(ArticleVoteType::class, $articleVote, [
                 'action' => $this->generateUrl('post_article_votes', [
                     'id' => $article->getId()
@@ -122,13 +124,6 @@ class ArticleController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
-                if ($myVote) {
-                    $this->redirectToRoute('get_article', [
-                        'id' => $article->getId()
-                    ]);
-                }
-                $articleVote->setArticle($article);
-                $articleVote->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($articleVote);
                 $em->flush();
