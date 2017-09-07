@@ -23,6 +23,12 @@
                     <span class="nav-label">{{ 'navigation.articles.title'|trans }}</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ path('get_suggestions') }}">
+                    <i class="fa fa-file"></i>
+                    <span class="nav-label">{{ 'navigation.suggestions.title'|trans }}</span>
+                </a>
+            </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{ path('get_categories') }}">

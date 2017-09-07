@@ -44,6 +44,14 @@ article-categories.add.title: 'Ajouter un thème'
 article-categories.add.action.cancel: 'Annuler'
 article-categories.add.action.submit: 'Ajouter'
 
+navigation.suggestions.title: 'Suggestion de contenu'
+suggestions.add.title: Ajout d'une suggestion
+suggestions.title: Suggestion
+suggestions.add.action.cancel: Annuler
+suggestions.list.title: Liste des suggestions
+suggestions.action.add: Ajouter une suggestion
+suggestions.add.action.submit: Ajouter
+
 # Emails
 email.new-article.title: Nouvelle demande d'article
 email.new-article.main-title: Nouvelle demande d'article de
@@ -68,6 +76,8 @@ entity.article.description.placeholder: Synopsys
 entity.article.link.placeholder: Lien Google Docs
 
 entity.article-category.label.placeholder: Label
+
+entity.suggestion.description.placeholder: Description
 
 # Layout
 layout.action.signout: Déconnexion
