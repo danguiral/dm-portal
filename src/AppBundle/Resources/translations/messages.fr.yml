@@ -47,10 +47,18 @@ article-categories.add.action.submit: 'Ajouter'
 navigation.suggestions.title: 'Suggestion de contenu'
 suggestions.add.title: Ajout d'une suggestion
 suggestions.title: Suggestion
+suggestion.number.title: 'Suggestion n°'
+
 suggestions.add.action.cancel: Annuler
 suggestions.list.title: Liste des suggestions
 suggestions.action.add: Ajouter une suggestion
 suggestions.add.action.submit: Ajouter
+suggestion.list.action.view: 'Détails'
+suggestion.action.return: 'Retour à la liste'
+suggestion.button.mark.as.used: "Marquer en tant qu'utilisé"
+suggestion.status.new: Nouveau
+suggestion.status.read: Lu
+suggestion.status.used: 'Utilisé'
 
 # Emails
 email.new-article.title: Nouvelle demande d'article

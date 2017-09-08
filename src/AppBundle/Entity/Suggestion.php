@@ -14,6 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Suggestion
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->insertedAt = new \Datetime;
+    }
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -45,6 +53,25 @@ class Suggestion
     private $file;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="inserted_at", type="datetime")
+     */
+    private $insertedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SuggestionStatus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
+    /**
      * Get id
      *
      * @return int
@@ -61,7 +88,7 @@ class Suggestion
      *
      * @return Suggestion
      */
-    public function setDescription($description)
+    public function setDescription($description): Suggestion
     {
         $this->description = $description;
 
@@ -83,11 +110,83 @@ class Suggestion
         return $this->file;
     }
 
-    public function setFile($file)
+    public function setFile($file): Suggestion
     {
         $this->file = $file;
 
         return $this;
+    }
+
+    /**
+     * Set insertedAt
+     *
+     * @param \DateTime $insertedAt
+     *
+     * @return Suggestion
+     */
+    public function setInsertedAt(\DateTime $insertedAt): Suggestion
+    {
+        $this->insertedAt = $insertedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get insertedAt
+     *
+     * @return \DateTime
+     */
+    public function getInsertedAt(): \DateTime
+    {
+        return $this->insertedAt;
+    }
+
+    /**
+     * Set User
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Suggestion
+     */
+    public function setUser(User $user): Suggestion
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get User
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\SuggestionStatus $status
+     *
+     * @return Suggestion
+     */
+    public function setStatus(SuggestionStatus $status): Suggestion
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\ArticleStatus
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
 

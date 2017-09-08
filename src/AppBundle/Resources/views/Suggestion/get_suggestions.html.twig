@@ -31,23 +31,32 @@
                             <tbody>
                             {% for suggestion in suggestions %}
                                 <tr>
+                                    <td class="col-xs-1">
+                                        {% if suggestion.status.id == 1 %}
+                                            <span class="label label-warning">{{ suggestion.status.label|trans }}</span>
+                                        {% elseif suggestion.status.id == 2 %}
+                                            <span class="label label-info">{{ suggestion.status.label|trans }}</span>
+                                        {% else %}
+                                            <span class="label label-default">{{ suggestion.status.label|trans }}</span>
+                                        {% endif %}
+                                    </td>
                                     <td class="col-xs-4">
-                                        {{ suggestion.description|slice(0, 50)  }}
-                                        {% if suggestion.description|length >50  %}
+                                        {{ suggestion.description|slice(0, 50) }}
+                                        {% if suggestion.description|length >50 %}
                                             {{ '...' }}
                                         {% endif %}
                                     </td>
                                     <td class="text-right col-xs-1">
-                                    {% if suggestion.file is not empty %}
-                                        <a class="btn btn-default btn-sm"
-                                           href="{{path('get_suggestions_download',{'file':suggestion.file})}}">
-                                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                                        </a>
-                                    {%  endif %}
+                                        {% if suggestion.file is not empty %}
+                                            <a class="btn btn-default btn-sm"
+                                               href="{{ path('get_suggestions_download',{'file':suggestion.file}) }}">
+                                                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                            </a>
+                                        {% endif %}
                                     </td>
                                     <td class="text-right col-xs-1">
                                         <a class="btn btn-default btn-sm"
-                                           href="">{{ 'articles.list.action.view'|trans }}</a>
+                                           href="{{ path('get_suggestion', {'id': suggestion.id}) }}">{{ 'suggestion.list.action.view'|trans }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}
