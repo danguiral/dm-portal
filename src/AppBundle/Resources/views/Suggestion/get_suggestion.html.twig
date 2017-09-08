@@ -1,6 +1,6 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title parent() ~ ' - ' %}
+{% block title parent() ~ ' - ' ~ 'suggestion.number.title'|trans ~ suggestion.id%}
 
 {% block nav %}
     <h2>{{ 'Suggestion' }}</h2>
@@ -42,11 +42,11 @@
                             <span class="label label-default">{{ suggestion.status.label|trans }}</span>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') and suggestion.status.id == 2 %}
-                        <a class="btn btn-default btn-sm"
-                           href="{{ path('get_suggestions_mark_as_used',{'id':suggestion.id}) }}">
-                            {{ 'suggestion.button.mark.as.used'|trans }}
-                        </a>
-                        {%  endif %}
+                            <a class="btn btn-default btn-sm"
+                               href="{{ path('get_suggestions_mark_as_used',{'id':suggestion.id}) }}">
+                                {{ 'suggestion.button.mark.as.used'|trans }}
+                            </a>
+                        {% endif %}
                         {% if suggestion.file is not empty %}
                             <a class="btn btn-default btn-sm"
                                href="{{ path('get_suggestions_download',{'file':suggestion.file}) }}">

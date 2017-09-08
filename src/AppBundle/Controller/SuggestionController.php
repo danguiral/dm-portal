@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Suggestion;
@@ -35,7 +34,6 @@ class SuggestionController extends Controller
      */
     public function postSuggestionsAction(Request $request): Response
     {
-
         $suggestion = new Suggestion();
 
         $form = $this->createForm(SuggestionType::class, $suggestion);
@@ -92,7 +90,6 @@ class SuggestionController extends Controller
      */
     public function getSuggestionsDownloadAction($file)
     {
-
         /** @var Suggestion $suggestion */
         $suggestion = $this->get('query_service')->findOneOrException(Suggestion::class, ['file' => $file]);
 
