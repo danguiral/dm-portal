@@ -5,7 +5,7 @@ fixtures:
         label: suggestion.status.new
     article_status_accepted:
         id: 2
-        label: suggestion.status.read
+        label: suggestion.status.accepted
     article_status_refused:
         id: 3
-        label: suggestion.status.used
+        label: suggestion.status.refused

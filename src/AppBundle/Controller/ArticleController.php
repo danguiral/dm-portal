@@ -123,7 +123,7 @@ class ArticleController extends Controller
 
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+                $this->get('role_service')->adminOrException();
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($articleVote);
                 $em->flush();
@@ -171,7 +171,7 @@ class ArticleController extends Controller
 
         if ($article->getStatus()->getId() == 1) {
             if ($request->isMethod('POST')) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+                $this->get('role_service')->adminOrException();
 
                 $status = $this->getDoctrine()->getRepository('AppBundle:ArticleStatus')
                     ->find($request->request->get('status_id'));

@@ -52,6 +52,17 @@ class Suggestion
     private $file;
 
     /**
+     * @ORM\Column(type="string", name="file_extension", type="string", nullable=true)
+     */
+    private $fileExtension;
+
+    /**
+     * @ORM\Column(type="string", name="file_mime_type", type="string", nullable=true)
+     */
+    private $fileMimeType;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="inserted_at", type="datetime")
@@ -70,6 +81,12 @@ class Suggestion
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SuggestionCategory", inversedBy="suggestions")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
+     */
+    private $category;
     /**
      * Get id
      *
@@ -104,14 +121,74 @@ class Suggestion
         return $this->description;
     }
 
+    /**
+     * Get file
+     *
+     * @return string
+     */
     public function getFile()
     {
         return $this->file;
     }
 
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return Suggestion
+     */
     public function setFile($file): Suggestion
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file extension
+     *
+     * @return string
+     */
+    public function getFileExtension()
+    {
+        return $this->fileExtension;
+    }
+
+    /**
+     * Set file mime type
+     *
+     * @param string $mimeType
+     *
+     * @return Suggestion
+     */
+    public function setFileMimeType($mimeType): Suggestion
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    /**
+     * Get file mime type
+     *
+     * @return string
+     */
+    public function getFileMimeType()
+    {
+        return $this->fileMimeType;
+    }
+
+    /**
+     * Set file extension
+     *
+     * @param string $fileExtension
+     *
+     * @return Suggestion
+     */
+    public function setFileExtension($fileExtension): Suggestion
+    {
+        $this->fileExtension = $fileExtension;
 
         return $this;
     }
@@ -181,11 +258,35 @@ class Suggestion
     /**
      * Get status
      *
-     * @return \AppBundle\Entity\ArticleStatus
+     * @return \AppBundle\Entity\SuggestionStatus
      */
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\SuggestionCategory $category
+     *
+     * @return Suggestion
+     */
+    public function setCategory(SuggestionCategory $category): Suggestion
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\SuggestionCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
 

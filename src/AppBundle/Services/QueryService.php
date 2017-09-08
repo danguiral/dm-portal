@@ -56,6 +56,27 @@ class QueryService
     }
 
     /**
+     * check if exist in databse
+     * @param $class
+     * @param array $params
+     * @return boolean
+     * @throws \Exception
+     */
+    public function checkIfExist($class, Array $params) {
+        if(!class_exists($class)) {
+            throw new \Exception("class($class) don't exist");
+        }
+
+        $classRepository = $this->em->getRepository($class);
+        $object = $classRepository->findOneBy($params);
+        if(!$object) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Save object
      * @param $object
      */

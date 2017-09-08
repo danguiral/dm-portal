@@ -9,3 +9,7 @@ services:
     query_service:
       class: AppBundle\Services\QueryService
       arguments: ["@service_container"]
+
+    role_service:
+      class: AppBundle\Services\RoleService
+      arguments: ["@service_container"]

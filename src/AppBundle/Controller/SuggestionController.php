@@ -46,12 +46,18 @@ class SuggestionController extends Controller
 
             /**@var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
             $file = $suggestion->getFile();
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move(
-                $this->getParameter('suggestion_directory'),
-                $fileName
-            );
-            $suggestion->setFile($fileName);
+            if($file) {
+                $fileName = password_hash(uniqid(rand(), true), PASSWORD_DEFAULT);
+                $extension = $file->guessExtension();
+                $mimeType = $file->getMimeType();
+                $file->move(
+                    $this->getParameter('suggestion_directory'),
+                    $fileName . '.' . $extension
+                );
+                $suggestion->setFileMimeType($mimeType);
+                $suggestion->setFile($fileName);
+                $suggestion->setFileExtension($extension);
+            }
             $suggestion->setUser($this->getUser());
             $suggestion->setStatus($status);
             $em = $this->getDoctrine()->getManager();
@@ -74,12 +80,6 @@ class SuggestionController extends Controller
         /** @var Suggestion $suggestion */
         $suggestion = $this->get('query_service')->findOneOrException(Suggestion::class, ['id' => $id]);
 
-        if ($this->getUser()->isAdmin() && $suggestion->getStatus()->getId() == 1) {
-            $suggestionstatus = $this->get('query_service')->findOneOrException(SuggestionStatus::class, ['id' => 2]);
-            $suggestion->setStatus($suggestionstatus);
-            $this->get('query_service')->save($suggestion);
-        }
-
         return $this->render('AppBundle:Suggestion:get_suggestion.html.twig', ['suggestion' => $suggestion]);
     }
 
@@ -90,13 +90,16 @@ class SuggestionController extends Controller
      */
     public function getSuggestionsDownloadAction($file)
     {
+
         /** @var Suggestion $suggestion */
         $suggestion = $this->get('query_service')->findOneOrException(Suggestion::class, ['file' => $file]);
-
-        $filename = $suggestion->getFile();
+        if (!$this->getUser()->isAdmin() && $suggestion->getUser() != $this->getUser() ) {
+            throw new \Exception('Permission denied');
+        }
+        $filename = $suggestion->getFile().'.'.$suggestion->getFileExtension();
 
         $response = new Response();
-        $response->headers->set('Content-type', 'application/octet-stream');
+        $response->headers->set('Content-type', $suggestion->getFileMimeType());
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
         $response->setContent(file_get_contents($this->getParameter('suggestion_directory') . '/' . $filename));
         $response->setStatusCode(200);
@@ -108,17 +111,20 @@ class SuggestionController extends Controller
     }
 
     /**
-     * @Route("/suggestions/mark_as_used/{id}", name="get_suggestions_mark_as_used")
+     * @Route("/suggestions/{id}/status/{statusId}", name="get_suggestions_mark_as", requirements={
+     *      "statusId": "2|3"
+     * })
      * @Method({"GET"})
      */
-    public function getSuggestionsMarkAsUsedAction($id)
+    public function getSuggestionsMarkAsAction($id, $statusId)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Permission denied');
+        $this->get('role_service')->adminOrException();
         $suggestion = $this->get('query_service')->findOneOrException(Suggestion::class, ['id' => $id]);
-        $suggestionstatus = $this->get('query_service')->findOneOrException(SuggestionStatus::class, ['id' => 3]);
+        $suggestionstatus = $this->get('query_service')->findOneOrException(SuggestionStatus::class, ['id' => $statusId]);
         $suggestion->setStatus($suggestionstatus);
         $this->get('query_service')->save($suggestion);
 
         return $this->redirectToRoute('get_suggestion', ['id' => $id]);
     }
+
 }

@@ -8,6 +8,7 @@ security.signup.button.have-account: Déjà un compte ?
 navigation.home.title: Accueil
 navigation.articles.title: Articles
 navigation.articles-categories.title: 'Thèmes'
+navigation.suggestions-categories.title: Cat. de suggestion
 
 home.title: Accueil
 
@@ -55,10 +56,19 @@ suggestions.action.add: Ajouter une suggestion
 suggestions.add.action.submit: Ajouter
 suggestion.list.action.view: 'Détails'
 suggestion.action.return: 'Retour à la liste'
-suggestion.button.mark.as.used: "Marquer en tant qu'utilisé"
+suggestion.button.refuse: Refuser
+suggestion.button.accept: Accepter
 suggestion.status.new: Nouveau
-suggestion.status.read: Lu
-suggestion.status.used: 'Utilisé'
+suggestion.status.accepted: Accepté
+suggestion.status.refused: Refusé
+suggestion-categories.list.title: Catégories
+
+suggestion-categories.list.msg.nb-suggestions: article|]1,+Inf[articles
+suggestion-categories.action.add: Ajouter une catégorie
+suggestion-categories.list.action.remove: Supprimer
+suggestion-categories.add.action.cancel: Retour
+suggestion-categories.title: Catégories
+
 
 # Emails
 email.new-article.title: Nouvelle demande d'article

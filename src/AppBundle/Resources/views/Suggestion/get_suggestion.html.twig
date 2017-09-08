@@ -41,10 +41,14 @@
                         {% else %}
                             <span class="label label-default">{{ suggestion.status.label|trans }}</span>
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN') and suggestion.status.id == 2 %}
+                        {% if (app.user.isAdmin or app.user == suggestion.user) and (suggestion.status.id == 1) %}
                             <a class="btn btn-default btn-sm"
-                               href="{{ path('get_suggestions_mark_as_used',{'id':suggestion.id}) }}">
-                                {{ 'suggestion.button.mark.as.used'|trans }}
+                               href="{{ path('get_suggestions_mark_as',{'id':suggestion.id, 'statusId': 2}) }}">
+                                {{ 'suggestion.button.accept'|trans }}
+                            </a>
+                            <a class="btn btn-default btn-sm"
+                               href="{{ path('get_suggestions_mark_as',{'id':suggestion.id, 'statusId': 3}) }}">
+                                {{ 'suggestion.button.refuse'|trans }}
                             </a>
                         {% endif %}
                         {% if suggestion.file is not empty %}

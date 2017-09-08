@@ -2,13 +2,12 @@
 
 namespace AppBundle\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SuggestionType extends AbstractType
+class SuggestionCategoryType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,12 +15,7 @@ class SuggestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('file', FileType::class, array('label' => 'Fichier' , 'required' => false))
-            ->add('category', EntityType::class, [
-                'class' => 'AppBundle:SuggestionCategory',
-                'choice_label' => 'label',
-            ]);
+            ->add('label', TextType::class);
     }
     
     /**
@@ -30,7 +24,7 @@ class SuggestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Suggestion'
+            'data_class' => 'AppBundle\Entity\SuggestionCategory'
         ));
     }
 
@@ -39,8 +33,6 @@ class SuggestionType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_suggestion';
+        return 'app_article_category';
     }
-
-
 }
